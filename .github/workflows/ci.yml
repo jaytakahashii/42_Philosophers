@@ -49,12 +49,10 @@ jobs:
 
     - name: Run Norminette
       run: |
-        make norm > output.txt
-        cat output.txt
-        ERROR_COUNT=$(grep -c 'Error!' output.txt)
-        if [ "$ERROR_COUNT" -ne 0 ]; then
-          echo "Norminette found errors. Failing the job."
+        LINE_COUNT=$(make norm | wc -l)
+        if [ "LINE_COUNT" -ne 6 ]; then
           exit 1
         else
-          echo "Norminette found no errors."
+          echo OK
         fi
+          

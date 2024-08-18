@@ -6,10 +6,11 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/08/18 16:58:51 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/08/18 18:01:12 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# MAKEFILE
 MAKEFILE = Makefile
 
 # プロジェクト名
@@ -23,11 +24,17 @@ OBJ_DIR = .obj/
 LIBFT_NAME = libft.a
 LIBFT_DIR = libft/
 LIBFT_INCLUDE = -I $(LIBFT_DIR)include/
+LIBFT_HEADERS = $(wildcard $(LIBFT_DIR)include/*.h)
+LIBFT_SRCS = $(wildcard $(LIBFT_DIR)src/**/*.c)
+LIBFT_DEPS = $(LIBFT_DIR)Makefile $(LIBFT_HEADERS) $(LIBFT_SRCS)
 
 # インクルードディレクトリ
 INCLUDE_DIR = include/
 INCLUDE = -I $(INCLUDE_DIR)
 HEADERS = $(wildcard $(INCLUDE_DIR)*.h)
+
+# 依存ファイル
+DEPS = $(MAKEFILE) $(HEADERS) $(LIBFT_DEPS)
 
 # コンパイル設定
 CC = cc
@@ -69,9 +76,10 @@ all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJS)
 	@echo $(Y) "$(NAME) src files successfully compiled\n" $(X)
-	@echo $(B) "--> Into $(LIBFT_DIR)" $(X)
+	@echo "--> Into $(LIBFT_DIR)"
 	@$(MAKE) -C $(LIBFT_DIR)
-	@echo $(B) "<-- Out of $(LIBFT_DIR)\n" $(X)
+	@printf $(UP)$(CUT)
+	@echo "<-- Out of $(LIBFT_DIR)\n"
 	@echo $(B) "$(NAME) creating" $(X)
 	@printf $(UP)$(CUT)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
@@ -81,21 +89,23 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS) $(MAKEFILE)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(DEPS)
 	@echo $(Y) "Compiling $<" $(X)
 	@$(CC) $(CFLAGS) $(INCLUDE) $(LIBFT_INCLUDE) -c $< -o $@
 	@printf $(UP)$(CUT)
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
+	@printf $(UP)$(CUT)
 	@$(RM) $(OBJ_DIR)
-	@echo $(R) "$(NAME) cleaned\n" $(X)
+	@echo $(R) "$(NAME) cleaned" $(X)
 
 fclean:
 	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@printf $(UP)$(CUT)
 	@$(RM) $(OBJ_DIR)
 	@$(RM) $(NAME)
-	@echo $(R) "$(NAME) fcleaned\n" $(X)
+	@echo $(R) "$(NAME) fcleaned" $(X)
 
 re: fclean all
 

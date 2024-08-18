@@ -3,10 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jay <jay@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/08/05 01:45:38 by jay              ###   ########.fr       */
+/*   Updated: 2024/08/18 12:26:30 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philosophers.h"
+
+int	main(int argc, char **argv)
+{
+	(void)argc;
+	(void)argv;
+	printf("Hello, world!\n");
+	return (0);
+}

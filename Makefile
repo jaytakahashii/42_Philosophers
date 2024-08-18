@@ -6,9 +6,11 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/08/18 12:27:03 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/08/18 16:58:51 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+MAKEFILE = Makefile
 
 # プロジェクト名
 NAME = philosophers
@@ -25,6 +27,7 @@ LIBFT_INCLUDE = -I $(LIBFT_DIR)include/
 # インクルードディレクトリ
 INCLUDE_DIR = include/
 INCLUDE = -I $(INCLUDE_DIR)
+HEADERS = $(wildcard $(INCLUDE_DIR)*.h)
 
 # コンパイル設定
 CC = cc
@@ -77,9 +80,8 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 # オブジェクトファイルのディレクトリを作成
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
-	# @mkdir $(OBJ_DIR)$(BUILTIN_DIR)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS) $(MAKEFILE)
 	@echo $(Y) "Compiling $<" $(X)
 	@$(CC) $(CFLAGS) $(INCLUDE) $(LIBFT_INCLUDE) -c $< -o $@
 	@printf $(UP)$(CUT)
@@ -102,5 +104,6 @@ norm:
 	@norminette $(SRC_DIR) $(INCLUDE_DIR) | grep Error | grep -v Error! | wc -l
 	@norminette $(SRC_DIR) $(INCLUDE_DIR) | grep Error || true
 	@$(MAKE) -C $(LIBFT_DIR) norm
+	@printf $(UP)$(CUT)
 
 .PHONY: all clean fclean re norm

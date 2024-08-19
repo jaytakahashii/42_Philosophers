@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/08/19 19:07:23 by jtakahas         ###   ########.fr       */
+/*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
+/*   Updated: 2024/08/19 19:12:14 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-
-int	main(int argc, char **argv)
+void	error_message(char *main_msg, char *sub_msg)
 {
-	t_data	data;
+	printf(RED"Error: %s"COLOR_END, main_msg);
+	if (sub_msg)
+		printf("%s", sub_msg);
+	printf("\n");
+}
 
-	if (!validate_check(argc, argv, &data))
-		return (1);
-	printf("Philo: %lu\n TimeToDie: %lu\n TimeToEat: %lu\n TimeToSleep: %lu\n NumOfTimesToEat: %lu\n",
-		data.args[0], data.args[1], data.args[2], data.args[3], data.args[4]);
-	return (0);
+void	pass_space(char **str)
+{
+	if (!str || !*str)
+		return ;
+	while (**str && (**str == ' ' || (9 <= **str && **str <= 13)))
+		(*str)++;
 }

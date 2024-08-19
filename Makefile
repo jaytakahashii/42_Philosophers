@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/08/18 19:27:10 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/08/19 19:14:36 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,17 +39,16 @@ RM = rm -rf
 NORM = norminette
 
 # ソースコードのサブディレクトリ
-# BUILTIN_DIR = 	builtin/
-
+UTILS_DIR = 	utils/
 
 # 各ディレクトリ内のソースファイル
-# BUILTIN_SRC = 	builtin.c builtin_exit.c
+UTILS_SRC = 	utils.c ft_uint_atoi.c
 
 # ソースファイル
-SRC_FILES = main.c
+SRC_FILES = main.c validate_check.c
 
 # ソースファイルをまとめる
-# SRC_FILES += $(addprefix $(BUILTIN_DIR), $(BUILTIN_SRC))
+SRC_FILES += $(addprefix $(UTILS_DIR), $(UTILS_SRC))
 
 # オブジェクトファイルをまとめる
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_FILES:%.c=%.o))
@@ -75,6 +74,7 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 # オブジェクトファイルのディレクトリを作成
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
+	@mkdir $(addprefix $(OBJ_DIR), $(UTILS_DIR))
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(DEPS)
 	@echo $(Y) "Compiling $<" $(X)

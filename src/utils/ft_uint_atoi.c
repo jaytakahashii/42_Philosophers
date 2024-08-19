@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:40:06 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/08/19 19:22:38 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:26:45 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ bool	unsigned_long_atoi(char *str, unsigned long *num)
 {
 	pass_space(&str);
 	if (!negative_check(&str))
-	{
-		printf("false\n");
 		return (false);
-	}
 	*num = 0;
 	while (*str)
 	{

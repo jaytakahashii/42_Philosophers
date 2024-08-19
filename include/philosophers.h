@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/08/19 19:36:35 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:26:00 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	pass_space(char **str);
 // ft_malloc.c
 bool	add_allocations(void *ptr, t_allocations **allocations);
 void	free_allocations(t_allocations **allocations);
-bool	ft_malloc(size_t size, t_allocations **allocations, void *ptr);
+void	*ft_malloc(size_t size, t_allocations **allocations);
 
 // validate_check.c
 bool	validate_check(int ac, char **av, t_data *data);

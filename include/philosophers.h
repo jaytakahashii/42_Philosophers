@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/08/19 19:14:15 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:36:35 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,25 @@ typedef struct s_data
 	t_philo			*philos;
 }	t_data;
 
-/* function prototypes */
-// ft_malloc.c
-void	*ft_malloc(size_t size);
+typedef struct s_allocations
+{
+	void	*ptr;
+	struct s_allocations	*next;
+}	t_allocations;
 
+/* function prototypes */
 // utils/
 void	error_message(char *main_msg, char *sub_msg);
 bool	unsigned_long_atoi(char *str, unsigned long *num);
 void	pass_space(char **str);
 
+// ft_malloc.c
+bool	add_allocations(void *ptr, t_allocations **allocations);
+void	free_allocations(t_allocations **allocations);
+bool	ft_malloc(size_t size, t_allocations **allocations, void *ptr);
+
 // validate_check.c
 bool	validate_check(int ac, char **av, t_data *data);
+
 
 #endif

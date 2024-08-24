@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/08/24 17:29:13 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:51:09 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_conditions	conditions;
 	t_allocations	*allocations;
+	pthread_mutex_t	mutex;
 
 	allocations = NULL;
 	if (!validate_check(argc, argv, &conditions))

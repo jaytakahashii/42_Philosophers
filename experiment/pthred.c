@@ -1,99 +1,124 @@
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
 
-#define N 5
 #define THINKING 2
 #define HUNGRY 1
 #define EATING 0
-#define LEFT (phnum + 4) % N
-#define RIGHT (phnum + 1) % N
 
-int state[N];
-int phil[N] = { 0, 1, 2, 3, 4 };
+typedef struct {
+    int *state;
+    pthread_mutex_t mutex;
+    pthread_mutex_t *forks;
+    int num_philosophers;
+} Table;
 
-pthread_mutex_t mutex;
-pthread_mutex_t forks[N];
+typedef struct {
+    int id;
+    Table *table;
+} Philosopher;
 
-void test(int phnum) {
-    if (state[phnum] == HUNGRY && state[LEFT] != EATING && state[RIGHT] != EATING) {
-        state[phnum] = EATING;
-        
-        usleep(200000);  // Sleep for 200ms (equivalent to sleep(2) with more precision)
+void test(Table *table, int phnum) {
+    int LEFT = (phnum + table->num_philosophers - 1) % table->num_philosophers;
+    int RIGHT = (phnum + 1) % table->num_philosophers;
 
+    if (table->state[phnum] == HUNGRY &&
+        table->state[LEFT] != EATING &&
+        table->state[RIGHT] != EATING) {
+        table->state[phnum] = EATING;
         printf("Philosopher %d takes fork %d and %d\n", phnum + 1, LEFT + 1, phnum + 1);
         printf("Philosopher %d is Eating\n", phnum + 1);
+        usleep(2000); // 食事中の時間を表す
     }
 }
 
-void take_fork(int phnum) {
-    pthread_mutex_lock(&mutex);
+void take_fork(Philosopher *philosopher) {
+    Table *table = philosopher->table;
+    int id = philosopher->id;
 
-    state[phnum] = HUNGRY;
-    printf("Philosopher %d is Hungry\n", phnum + 1);
+    pthread_mutex_lock(&table->mutex);
+    table->state[id] = HUNGRY;
+    printf("Philosopher %d is Hungry\n", id + 1);
 
-    test(phnum);
+    test(table, id);
 
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&table->mutex);
 
-    // If unable to eat, wait until the forks are available
-    pthread_mutex_lock(&forks[phnum]);
+    pthread_mutex_lock(&table->forks[id]); // フォークを待つ
 }
 
-void put_fork(int phnum) {
-    pthread_mutex_lock(&mutex);
+void put_fork(Philosopher *philosopher) {
+    Table *table = philosopher->table;
+    int id = philosopher->id;
+    int LEFT = (id + table->num_philosophers - 1) % table->num_philosophers;
+    int RIGHT = (id + 1) % table->num_philosophers;
 
-    state[phnum] = THINKING;
-    printf("Philosopher %d putting fork %d and %d down\n", phnum + 1, LEFT + 1, phnum + 1);
-    printf("Philosopher %d is thinking\n", phnum + 1);
+    pthread_mutex_lock(&table->mutex);
 
-    test(LEFT);
-    test(RIGHT);
+    table->state[id] = THINKING;
+    printf("Philosopher %d putting fork %d and %d down\n", id + 1, LEFT + 1, id + 1);
+    printf("Philosopher %d is thinking\n", id + 1);
 
-    pthread_mutex_unlock(&forks[phnum]);
-    pthread_mutex_unlock(&mutex);
+    test(table, LEFT);
+    test(table, RIGHT);
+
+    pthread_mutex_unlock(&table->forks[id]); // フォークを開放
+
+    pthread_mutex_unlock(&table->mutex);
 }
 
-void* philosopher(void* num) {
-    int* i = num;
+void* philosopher(void* arg) {
+    Philosopher *philosopher = (Philosopher*)arg;
 
     while (1) {
-        usleep(100000);  // Sleep for 100ms (simulating thinking)
-
-        take_fork(*i);
-        usleep(100000);  // Sleep for 100ms (simulating eating)
-        put_fork(*i);
+        usleep(1000); // 考える時間
+        take_fork(philosopher);
+        usleep(1000); // 食事後の処理
+        put_fork(philosopher);
     }
 }
 
 int main() {
-    int i;
-    pthread_t thread_id[N];
+    int num_philosophers;
+    printf("Enter the number of philosophers: ");
+    scanf("%d", &num_philosophers);
 
-    // Initialize mutexes
-    pthread_mutex_init(&mutex, NULL);
-    memset(state, THINKING, sizeof(state));
-    for (i = 0; i < N; i++) {
-        pthread_mutex_init(&forks[i], NULL);
+    pthread_t *thread_id = malloc(num_philosophers * sizeof(pthread_t));
+    Table table;
+    Philosopher *philosophers = malloc(num_philosophers * sizeof(Philosopher));
+
+    table.state = malloc(num_philosophers * sizeof(int));
+    table.forks = malloc(num_philosophers * sizeof(pthread_mutex_t));
+    table.num_philosophers = num_philosophers;
+
+    pthread_mutex_init(&table.mutex, NULL);
+
+    for (int i = 0; i < num_philosophers; i++) {
+        table.state[i] = THINKING;
+        pthread_mutex_init(&table.forks[i], NULL);
+        philosophers[i].id = i;
+        philosophers[i].table = &table;
     }
 
-    for (i = 0; i < N; i++) {
-        pthread_create(&thread_id[i], NULL, philosopher, &phil[i]);
+    for (int i = 0; i < num_philosophers; i++) {
+        pthread_create(&thread_id[i], NULL, philosopher, &philosophers[i]);
         printf("Philosopher %d is thinking\n", i + 1);
     }
 
-    for (i = 0; i < N; i++) {
+    for (int i = 0; i < num_philosophers; i++) {
         pthread_join(thread_id[i], NULL);
     }
 
-    // Destroy mutexes
-    pthread_mutex_destroy(&mutex);
-    for (i = 0; i < N; i++) {
-        pthread_mutex_destroy(&forks[i]);
+    pthread_mutex_destroy(&table.mutex);
+    for (int i = 0; i < num_philosophers; i++) {
+        pthread_mutex_destroy(&table.forks[i]);
     }
+
+    free(table.state);
+    free(table.forks);
+    free(philosophers);
+    free(thread_id);
 
     return 0;
 }

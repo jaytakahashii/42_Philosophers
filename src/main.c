@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/08/18 19:36:47 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:16:24 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,17 @@
 
 int	main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
-	printf("Hello, world!\n");
+	t_conditions	conditions;
+	t_allocations	*allocations;
+
+	allocations = NULL;
+	if (!validate_check(argc, argv, &conditions))
+		return (1);
+	printf("Philo: %lu\nTimeToDie: %lu\nTimeToEat: %lu\nTimeToSleep: \
+		%lu\nNumOfTimesToEat: %lu\n",
+		conditions.num_of_philos, conditions.time_to_die,
+		conditions.time_to_eat, conditions.time_to_sleep,
+		conditions.num_of_times_to_eat);
+	free_allocations(&allocations);
 	return (0);
 }

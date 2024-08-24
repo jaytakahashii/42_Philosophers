@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 17:16:28 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/08/19 20:23:06 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:25:37 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	free_allocations(t_allocations **allocations)
 		free(tmp->ptr);
 		free(tmp);
 	}
-	*allocations = NULL;
 }
 
 void	*ft_malloc(size_t size, t_allocations **allocations)

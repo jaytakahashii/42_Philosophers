@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/08/19 20:26:00 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:29:26 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,18 @@ typedef struct s_philo
 }	t_philo;
 
 /* defining the structure for the data */
+typedef struct s_conditions
+{
+	unsigned long	num_of_philos;
+	unsigned long	time_to_die;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_sleep;
+	unsigned long	num_of_times_to_eat;
+}	t_conditions;
+
 typedef struct s_data
 {
-	unsigned long	args[6];
+	t_conditions	conditions;
 	bool			dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
@@ -54,7 +63,7 @@ typedef struct s_data
 
 typedef struct s_allocations
 {
-	void	*ptr;
+	void					*ptr;
 	struct s_allocations	*next;
 }	t_allocations;
 
@@ -70,7 +79,6 @@ void	free_allocations(t_allocations **allocations);
 void	*ft_malloc(size_t size, t_allocations **allocations);
 
 // validate_check.c
-bool	validate_check(int ac, char **av, t_data *data);
-
+bool	validate_check(int ac, char **av, t_conditions *conditions);
 
 #endif

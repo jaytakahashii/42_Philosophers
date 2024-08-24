@@ -84,35 +84,35 @@ int main() {
     printf("Enter the number of philosophers: ");
     scanf("%d", &num_philosophers);
 
-    pthread_t *thread_id = malloc(num_philosophers * sizeof(pthread_t));
-    Table table;
-    Philosopher *philosophers = malloc(num_philosophers * sizeof(Philosopher));
+    pthread_t *thread_id = malloc(num_philosophers * sizeof(pthread_t)); // スレッドIDを格納する配列
+    Table table; // テーブルの状態を表す構造体
+    Philosopher *philosophers = malloc(num_philosophers * sizeof(Philosopher)); // 哲学者を表す構造体の配列
 
-    table.state = malloc(num_philosophers * sizeof(int));
-    table.forks = malloc(num_philosophers * sizeof(pthread_mutex_t));
-    table.num_philosophers = num_philosophers;
+    table.state = malloc(num_philosophers * sizeof(int)); // 哲学者の状態を表す配列 (THINKING, HUNGRY, EATING)
+    table.forks = malloc(num_philosophers * sizeof(pthread_mutex_t)); // フォークを表すmutexの配列
+    table.num_philosophers = num_philosophers; // 哲学者の数
 
-    pthread_mutex_init(&table.mutex, NULL);
+    pthread_mutex_init(&table.mutex, NULL); // テーブルのmutexを初期化
 
     for (int i = 0; i < num_philosophers; i++) {
         table.state[i] = THINKING;
-        pthread_mutex_init(&table.forks[i], NULL);
-        philosophers[i].id = i;
+        pthread_mutex_init(&table.forks[i], NULL); // フォークのmutexを初期化
+        philosophers[i].id = i; // 哲学者のID
         philosophers[i].table = &table;
     }
 
     for (int i = 0; i < num_philosophers; i++) {
-        pthread_create(&thread_id[i], NULL, philosopher, &philosophers[i]);
+        pthread_create(&thread_id[i], NULL, philosopher, &philosophers[i]); // 哲学者のスレッドを生成 (スレッドID, スレッドの属性, 関数, 関数に渡す引数)
         printf("Philosopher %d is thinking\n", i + 1);
     }
 
     for (int i = 0; i < num_philosophers; i++) {
-        pthread_join(thread_id[i], NULL);
+        pthread_join(thread_id[i], NULL); // スレッドの終了を待つ
     }
 
     pthread_mutex_destroy(&table.mutex);
     for (int i = 0; i < num_philosophers; i++) {
-        pthread_mutex_destroy(&table.forks[i]);
+        pthread_mutex_destroy(&table.forks[i]); // mutexを破棄
     }
 
     free(table.state);

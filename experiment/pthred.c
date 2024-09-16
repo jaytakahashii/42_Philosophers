@@ -29,7 +29,7 @@ void test(Table *table, int phnum) {
         table->state[phnum] = EATING;
         printf("Philosopher %d takes fork %d and %d\n", phnum + 1, LEFT + 1, phnum + 1);
         printf("Philosopher %d is Eating\n", phnum + 1);
-        usleep(2000); // 食事中の時間を表す
+        usleep(200000); // 食事中の時間を表す
     }
 }
 
@@ -74,8 +74,9 @@ void* philosopher(void* arg) {
     while (1) {
         usleep(1000); // 考える時間
         take_fork(philosopher);
-        usleep(1000); // 食事後の処理
+        usleep(1000); // 食事中
         put_fork(philosopher);
+        usleep(1000); // 睡眠
     }
 }
 
@@ -94,11 +95,16 @@ int main() {
 
     pthread_mutex_init(&table.mutex, NULL); // テーブルのmutexを初期化
 
+    /*
+    Q. テーブルのmutexはなぜ必要なのか？
+    A. テーブルのmutexは、哲学者がフォークを取るときに他の哲学者が同時にフォークを取らないようにするために使われます。
+    */
+
     for (int i = 0; i < num_philosophers; i++) {
-        table.state[i] = THINKING;
-        pthread_mutex_init(&table.forks[i], NULL); // フォークのmutexを初期化
-        philosophers[i].id = i; // 哲学者のID
-        philosophers[i].table = &table;
+        table.state[i] = THINKING; // tableの i番目の哲学者の状態を THINKING に初期化
+        pthread_mutex_init(&table.forks[i], NULL); // tableの i番目のフォークのmutexを初期化
+        philosophers[i].id = i; // 哲学者のIDを設定
+        philosophers[i].table = &table; // 哲学者の情報とテーブルの情報を紐付け
     }
 
     for (int i = 0; i < num_philosophers; i++) {

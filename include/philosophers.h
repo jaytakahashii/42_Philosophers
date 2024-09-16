@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/08/24 17:29:26 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/08/31 17:28:41 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,11 @@
 /* ****************************** */
 
 /* defining the structure for the philosophers */
-typedef struct s_philo
-{
-	int				id;
-	pthread_t		thread;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*print_mutex;
-	struct s_data	*data;
-	struct timeval	last_meal;
-}	t_philo;
 
-/* defining the structure for the data */
+# define THINKING 2
+# define HUNGRY 1
+# define EATING 0
+
 typedef struct s_conditions
 {
 	unsigned long	num_of_philos;
@@ -52,15 +45,22 @@ typedef struct s_conditions
 	unsigned long	num_of_times_to_eat;
 }	t_conditions;
 
-typedef struct s_data
+typedef struct s_table
 {
-	t_conditions	conditions;
-	bool			dead;
+	int				*state;
+	pthread_mutex_t	mutex;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	print_mutex;
-	t_philo			*philos;
-}	t_data;
+	int				num_philosophers;
+	t_conditions	conditions;
+}	t_table;
 
+typedef struct s_philos
+{
+	int		id;
+	t_table	*table;
+}	t_philos;
+
+/* defining the structure for the allocations */
 typedef struct s_allocations
 {
 	void					*ptr;
@@ -80,5 +80,7 @@ void	*ft_malloc(size_t size, t_allocations **allocations);
 
 // validate_check.c
 bool	validate_check(int ac, char **av, t_conditions *conditions);
+
+void	*philosopher_loop(void *philo);
 
 #endif

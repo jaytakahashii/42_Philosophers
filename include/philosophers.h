@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/08/31 17:28:41 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:59:57 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 /* defining the structure for the philosophers */
 
 # define THINKING 2
-# define HUNGRY 1
+# define SLEEPING 1
 # define EATING 0
 
 typedef struct s_conditions
@@ -57,6 +57,7 @@ typedef struct s_table
 typedef struct s_philos
 {
 	int		id;
+	int		global_time;
 	t_table	*table;
 }	t_philos;
 

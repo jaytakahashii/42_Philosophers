@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/08/31 17:29:02 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:55:51 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	mutex_loop(t_table *table, t_philos *philos, pthread_t *thread_id)
 	size_t	count;
 
 	count = 0;
+	philos->global_time = 0;
 	while (count < table->conditions.num_of_philos)
 	{
 		philos[count].id = count;

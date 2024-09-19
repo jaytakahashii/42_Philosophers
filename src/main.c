@@ -6,91 +6,85 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/16 16:55:51 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:47:30 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-bool	init_table(t_table *table, t_allocations *allocations)
+void	*monitor_philosophers(void *arg)
 {
-	size_t	count;
+	t_data	*data;
+	unsigned long	count;
 
-	table->state = ft_malloc(table->conditions.num_of_philos * sizeof(int), &allocations);
-	if (!table->state)
-		return (false);
-	table->forks = ft_malloc(table->conditions.num_of_philos * sizeof(pthread_mutex_t), &allocations);
-	if (!table->forks)
-		return (false);
-	table->num_philosophers = table->conditions.num_of_philos;
-	pthread_mutex_init(&table->mutex, NULL);
-	count = 0;
-	while (count < table->conditions.num_of_philos)
+	data = (t_data *)arg;
+	while (!data->stop_simulation)
 	{
-		table->state[count] = THINKING;
-		pthread_mutex_init(&table->forks[count], NULL);
-		count++;
+		count = 0;
+		while (count < data->conditions.num_of_philos)
+		{
+			if (get_time_in_ms() - data->philos[count].last_meal_time
+				> data->conditions.time_to_die)
+			{
+				log_event(data, data->philos[count].id, "died");
+				data->stop_simulation = 1;
+				break ;
+			}
+			count++;
+		}
+		usleep(1000);
 	}
-	return (true);
+	return (NULL);
 }
 
-void	mutex_loop(t_table *table, t_philos *philos, pthread_t *thread_id)
+
+void	create_loop(t_data *data)
 {
-	size_t	count;
+	unsigned long	count;
+	pthread_t		monitor_thread;
 
 	count = 0;
-	philos->global_time = 0;
-	while (count < table->conditions.num_of_philos)
+	pthread_create(&monitor_thread, NULL, monitor_philosophers, data);
+	while (count < data->conditions.num_of_philos)
 	{
-		philos[count].id = count;
-		philos[count].table = table;
-		pthread_create(&thread_id[count], NULL, philosopher_loop, &philos[count]);
-		count++;
-	}
-	count = 0;
-	while (count < table->conditions.num_of_philos)
-	{
-		pthread_join(thread_id[count], NULL);
+		pthread_create(&data->philos[count].thread,
+						NULL, philosopher_lifecycle, &data->philos[count]);
 		count++;
 	}
 }
 
-void	destroy_table(t_table *table)
+void	destroy_loop(t_data *data)
 {
-	size_t	count;
+	unsigned long	count;
 
 	count = 0;
-	while (count < table->conditions.num_of_philos)
+	while (count < data->conditions.num_of_philos)
 	{
-		pthread_mutex_destroy(&table->forks[count]);
+		pthread_join(data->philos[count].thread, NULL);
 		count++;
 	}
-	pthread_mutex_destroy(&table->mutex);
 }
 
 int	main(int argc, char **argv)
 {
-	t_table			table;
-	pthread_t		*thread_id;
-	t_philos		*philos;
+	t_data			data;
 	t_allocations	*allocations;
 
 	allocations = NULL;
-	philos = NULL;
-	if (!validate_check(argc, argv, &table.conditions))
+	if (!validate_check(argc, argv, &data.conditions))
 		return (1);
-	thread_id = ft_malloc(table.conditions.num_of_philos * sizeof(pthread_t),
-			&allocations);
-	if (!thread_id)
+	if (!init_data(&data, allocations))
+	{
+		free_allocations(&allocations);
 		return (1);
-	philos = ft_malloc(table.conditions.num_of_philos * sizeof(t_philos),
-			&allocations);
-	if (!philos)
+	}
+	if (!init_philos(&data))
+	{
+		free_allocations(&allocations);
 		return (1);
-	if (!init_table(&table, allocations))
-		return (1);
-	mutex_loop(&table, philos, thread_id);
-	destroy_table(&table);
+	}
+	create_loop(&data);
+	destroy_loop(&data);
 	free_allocations(&allocations);
 	return (0);
 }

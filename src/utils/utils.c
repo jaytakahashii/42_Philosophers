@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/08/19 19:12:14 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:46:40 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,22 @@ void	pass_space(char **str)
 		return ;
 	while (**str && (**str == ' ' || (9 <= **str && **str <= 13)))
 		(*str)++;
+}
+
+unsigned long	get_time_in_ms(void)
+{
+	timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void	log_event(t_data *data, int id, const char *event)
+{
+	unsigned long	timestamp;
+
+	timestamp = get_time_in_ms() - data->start_time;
+	pthread_mutex_lock(&data->print_lock);
+	printf("%lu %d %s\n", timestamp, id, event);
+	pthread_mutex_unlock(&data->print_lock);
 }

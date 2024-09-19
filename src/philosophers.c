@@ -6,57 +6,54 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:45:30 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/16 17:05:27 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:46:49 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 // philosopher : eat -> sleep -> think -> eat -> sleep -> think -> ...
-
-void	philo_sleep(t_philos *philosopher, t_table *table, t_conditions conditions)
+void	get_forks(t_data *data)
 {
-	printf("%d %d is Sleeping\n", philosopher->global_time, philosopher->id + 1);
-	usleep(conditions.time_to_sleep * 1000);
-	philosopher->global_time += conditions.time_to_sleep;
-	table->state[philosopher->id] = THINKING;
-}
-
-void	philo_eat(t_philos *philosopher, t_table *table, t_conditions conditions)
-{
-	int	LEFT;
-	int	RIGHT;
-
-	LEFT = (philosopher->id + table->num_philosophers - 1) % table->num_philosophers;
-	RIGHT = (philosopher->id + 1) % table->num_philosophers;
-	if (table->state[philosopher->id] == THINKING &&
-		table->state[LEFT] != EATING &&
-		table->state[RIGHT] != EATING)
+	if (data->philos->id % 2 == 0)
 	{
-		pthread_mutex_lock(&table->mutex);
-		table->state[philosopher->id] = EATING;
-		printf("%d %d is Eating\n", philosopher->global_time, philosopher->id + 1);
-		usleep(conditions.time_to_eat * 1000);
-		philosopher->global_time += conditions.time_to_eat;
-		table->state[philosopher->id] = SLEEPING;
-		pthread_mutex_unlock(&table->mutex);
+		pthread_mutex_lock(data->philos->right_fork);
+		pthread_mutex_lock(data->philos->left_fork);
 	}
+	else
+	{
+		pthread_mutex_lock(data->philos->left_fork);
+		pthread_mutex_lock(data->philos->right_fork);
+	}
+	data->philos->is_eating = true;
+	log_event(data, data->philos->id, "has taken a fork");
 }
 
-void	*philosopher_loop(void *philo)
+void	put_forks(t_data *data)
 {
-	t_philos	*philosopher;
-	t_table		*table;
-	t_conditions	conditions;
+	pthread_mutex_unlock(data->philos->left_fork);
+	pthread_mutex_unlock(data->philos->right_fork);
+	data->philos->is_eating = false;
+}
 
-	philosopher = (t_philos *)philo;
-	table = philosopher->table;
-	conditions = table->conditions;
-	while (1)
+void	eat(t_data *data)
+{
+	data->philos->last_meal_time = get_time_in_ms();
+	log_event(data, data->philos->id, "is eating");
+	usleep(data->conditions.time_to_eat * 1000);
+}
+
+void	*philosopher_lifecycle(void *arg)
+{
+	t_philos (*philos) = (t_philos *)arg;
+	while (!philos->data->stop_simulation)
 	{
-		philo_eat(philosopher, table, conditions);
-		philo_sleep(philosopher, table, conditions);
-		printf("Philosopher %d is thinking\n", philosopher->id + 1);
+		get_forks(philos->data);
+		eat(philos->data);
+		put_forks(philos->data);
+		log_event(philos->data, philos->id, "is sleeping");
+		usleep(philos->data->conditions.time_to_sleep * 1000);
+		log_event(philos->data, philos->id, "is thinking");
 	}
 	return (NULL);
 }

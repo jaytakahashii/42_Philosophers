@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/09/16 15:45:55 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/19 19:28:32 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ UTILS_DIR = 	utils/
 UTILS_SRC = 	utils.c ft_uint_atoi.c ft_malloc.c
 
 # ソースファイル
-SRC_FILES = main.c validate_check.c philosophers.c
+SRC_FILES = main.c validate_check.c philosophers.c initialize.c
 
 # ソースファイルをまとめる
 SRC_FILES += $(addprefix $(UTILS_DIR), $(UTILS_SRC))

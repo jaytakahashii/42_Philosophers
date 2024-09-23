@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/19 19:47:30 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:13:18 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*monitor_philosophers(void *arg)
 				> data->conditions.time_to_die)
 			{
 				log_event(data, data->philos[count].id, "died");
-				data->stop_simulation = 1;
+				data->stop_simulation = true;
 				break ;
 			}
 			count++;

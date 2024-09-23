@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/19 19:47:06 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:10:59 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
 	unsigned long	start_time;
-	int				stop_simulation;
+	bool			stop_simulation;
 	struct s_philos	*philos;
 }	t_data;
 

@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/09/19 19:28:32 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/23 16:09:27 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ DEPS = $(MAKEFILE) $(HEADERS)
 
 # コンパイル設定
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address,undefined -g
+CFLAGS = -Wall -Wextra -Werror
+DEBUG = -fsanitize=address,undefined -g
 
 # クリーンアップコマンド
 RM = rm -rf
@@ -69,6 +70,12 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 	@echo $(Y) "$(NAME) src files successfully compiled\n" $(X)
 	@echo $(B) "$(NAME) creating" $(X)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
+	@echo $(G) "!! $(NAME) created !!\n" $(X)
+
+debug: $(OBJ_DIR) $(OBJS)
+	@echo $(Y) "$(NAME) src files successfully compiled\n" $(X)
+	@echo $(B) "$(NAME) creating" $(X)
+	@$(CC) $(CFLAGS) $(DEBUG) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
 	@echo $(G) "!! $(NAME) created !!\n" $(X)
 
 # オブジェクトファイルのディレクトリを作成

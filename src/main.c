@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/23 18:37:08 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:07:18 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	create_loop(t_data *data)
 	{
 		pthread_create(
 			&data->philos[count].thread,
-			NULL, philosopher_lifecycle,
+			NULL,
+			philosopher_lifecycle,
 			&data->philos[count]);
 		count++;
 	}

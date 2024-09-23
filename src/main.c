@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/23 16:13:18 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:31:13 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	create_loop(t_data *data)
 						NULL, philosopher_lifecycle, &data->philos[count]);
 		count++;
 	}
+	pthread_join(monitor_thread, NULL);
 }
 
 void	destroy_loop(t_data *data)
@@ -63,6 +64,20 @@ void	destroy_loop(t_data *data)
 		pthread_join(data->philos[count].thread, NULL);
 		count++;
 	}
+	count = 0;
+	while (count < data->conditions.num_of_philos)
+	{
+		pthread_mutex_destroy(&data->forks[count]);
+		count++;
+	}
+	pthread_mutex_destroy(&data->print_lock);
+}
+
+void	case_only_one_philo(t_data *data)
+{
+	log_event(data, 1, "has taken a fork");
+	usleep(data->conditions.time_to_die * 1000);
+	log_event(data, 1, "died");
 }
 
 int	main(int argc, char **argv)
@@ -73,18 +88,18 @@ int	main(int argc, char **argv)
 	allocations = NULL;
 	if (!validate_check(argc, argv, &data.conditions))
 		return (1);
-	if (!init_data(&data, allocations))
+	if (!init_data(&data, allocations) || !init_philos(&data))
 	{
 		free_allocations(&allocations);
 		return (1);
 	}
-	if (!init_philos(&data))
+	if (data.conditions.num_of_philos == 1)
+		case_only_one_philo(&data);
+	else
 	{
-		free_allocations(&allocations);
-		return (1);
+		create_loop(&data);
+		destroy_loop(&data);
 	}
-	create_loop(&data);
-	destroy_loop(&data);
 	free_allocations(&allocations);
 	return (0);
 }

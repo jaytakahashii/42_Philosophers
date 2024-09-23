@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/23 18:35:41 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:13:17 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 bool	init_philos(t_data *data)
 {
+	int	left;
+	int	right;
+
 	unsigned long (i) = 0;
 	while (i < data->conditions.num_of_philos)
 	{
+		right = (i + data->conditions.num_of_philos - 1)
+			% data->conditions.num_of_philos;
+		left = (i + 1) % data->conditions.num_of_philos;
 		data->philos[i].id = i + 1;
-		data->philos[i].left_fork = &data->forks[i];
-		data->philos[i].right_fork = &data->forks[(i + 1)
-			% data->conditions.num_of_philos];
+		data->philos[i].left_fork = &data->forks[left];
+		data->philos[i].right_fork = &data->forks[right];
 		data->philos[i].is_eating = false;
 		data->philos[i].last_meal_time = data->start_time;
 		data->philos[i].data = data;

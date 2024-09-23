@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/23 16:12:01 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:35:41 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ bool	init_data(t_data *data, t_allocations *allocations)
 	unsigned long (count) = 0;
 	data->stop_simulation = false;
 	data->start_time = get_time_in_ms();
-	data->forks = ft_malloc(data->conditions.num_of_philos
-							* sizeof(pthread_mutex_t), &allocations);
+	data->forks = ft_malloc(
+			data->conditions.num_of_philos * sizeof(pthread_mutex_t),
+			&allocations);
 	if (!data->forks)
 		return (false);
-	data->philos = ft_malloc(data->conditions.num_of_philos
-							* sizeof(t_philos), &allocations);
+	data->philos = ft_malloc(
+			data->conditions.num_of_philos * sizeof(t_philos), &allocations);
 	if (!data->philos)
 		return (false);
-
 	pthread_mutex_init(&data->print_lock, NULL);
 	while (count < data->conditions.num_of_philos)
 	{

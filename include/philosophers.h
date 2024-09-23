@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/23 16:10:59 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:39:28 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define COLOR_END "\033[0m"
 /* ****************************** */
 
-typedef struct timeval	timeval;
+typedef struct timeval	t_timeval;
 
 /* defining the structure for the philosophers */
 typedef struct s_conditions
@@ -73,24 +73,24 @@ typedef struct s_allocations
 
 /* function prototypes */
 // utils/
-void	error_message(char *main_msg, char *sub_msg);
-bool	unsigned_long_atoi(char *str, unsigned long *num);
-void	pass_space(char **str);
-void	log_event(t_data *data, int id, const char *event);
+void			error_message(char *main_msg, char *sub_msg);
+bool			unsigned_long_atoi(char *str, unsigned long *num);
+void			pass_space(char **str);
+void			log_event(t_data *data, int id, const char *event);
 unsigned long	get_time_in_ms(void);
 
 // ft_malloc.c
-bool	add_allocations(void *ptr, t_allocations **allocations);
-void	free_allocations(t_allocations **allocations);
-void	*ft_malloc(size_t size, t_allocations **allocations);
+bool			add_allocations(void *ptr, t_allocations **allocations);
+void			free_allocations(t_allocations **allocations);
+void			*ft_malloc(size_t size, t_allocations **allocations);
 
 // validate_check.c
-bool	validate_check(int ac, char **av, t_conditions *conditions);
+bool			validate_check(int ac, char **av, t_conditions *conditions);
 
-void	*philosopher_lifecycle(void *arg);
+void			*philosopher_lifecycle(void *arg);
 
 // initialize.c
-bool	init_data(t_data *data, t_allocations *allocations);
-bool	init_philos(t_data *data);
+bool			init_data(t_data *data, t_allocations *allocations);
+bool			init_philos(t_data *data);
 
 #endif

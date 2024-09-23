@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/23 18:31:13 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:37:08 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*monitor_philosophers(void *arg)
 {
-	t_data	*data;
+	t_data			*data;
 	unsigned long	count;
 
 	data = (t_data *)arg;
@@ -37,7 +37,6 @@ void	*monitor_philosophers(void *arg)
 	return (NULL);
 }
 
-
 void	create_loop(t_data *data)
 {
 	unsigned long	count;
@@ -47,8 +46,10 @@ void	create_loop(t_data *data)
 	pthread_create(&monitor_thread, NULL, monitor_philosophers, data);
 	while (count < data->conditions.num_of_philos)
 	{
-		pthread_create(&data->philos[count].thread,
-						NULL, philosopher_lifecycle, &data->philos[count]);
+		pthread_create(
+			&data->philos[count].thread,
+			NULL, philosopher_lifecycle,
+			&data->philos[count]);
 		count++;
 	}
 	pthread_join(monitor_thread, NULL);

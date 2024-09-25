@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:45:30 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 18:47:35 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:06:11 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,29 @@ void	philo_think(t_philos *philo)
 	log_event(philo->data, philo->id, "is thinking");
 }
 
+static bool	dead_check(t_philos *philo)
+{
+	pthread_mutex_lock(philo->dead_lock);
+	if (*philo->dead)
+	{
+		pthread_mutex_unlock(philo->dead_lock);
+		return (true);
+	}
+	pthread_mutex_unlock(philo->dead_lock);
+	pthread_mutex_lock(philo->eat_lock);
+	if (*philo->finished)
+	{
+		pthread_mutex_unlock(philo->eat_lock);
+		return (true);
+	}
+	pthread_mutex_unlock(philo->eat_lock);
+	return (false);
+}
+
 void	*lifecycle(void *arg)
 {
 	t_philos (*philos) = (t_philos *)arg;
-	while (philos->data->finished == false && philos->data->dead_flag == false)
+	while (!dead_check(philos))
 	{
 		philo_eat(philos);
 		philo_sleep(philos);

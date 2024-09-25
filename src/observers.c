@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 19:01:59 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:12:09 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ void	*program_observer(void *arg)
 			printf("death\n");
 			break ;
 		}
-		if (philos[0].conditions->must_eat != -1)
-			continue ;
-		if (check_finished(philos))
+		if (philos->conditions->must_eat != -1 && check_finished(philos))
 		{
 			printf("finished\n");
 			break ;

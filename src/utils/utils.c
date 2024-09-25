@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 16:30:38 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:00:14 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	log_event(t_data *data, int id, const char *event)
 {
 	__uint64_t	timestamp;
 
-	pthread_mutex_lock(&data->data_lock);
+	pthread_mutex_lock(&data->time_lock);
 	timestamp = get_time_in_ms() - data->philos[0].start_time;
-	pthread_mutex_unlock(&data->data_lock);
+	pthread_mutex_unlock(&data->time_lock);
 	pthread_mutex_lock(&data->print_lock);
 	printf("%lu %d %s\n", timestamp, id, event);
 	pthread_mutex_unlock(&data->print_lock);

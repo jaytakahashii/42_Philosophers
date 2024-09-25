@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/25 18:29:21 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:58:45 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	thread_destroy(t_data *data, t_conditions conditions)
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&data->data_lock);
+	pthread_mutex_destroy(&data->time_lock);
 	pthread_mutex_destroy(&data->print_lock);
 	pthread_mutex_destroy(&data->eat_lock);
 	pthread_mutex_destroy(&data->dead_lock);
@@ -70,27 +70,27 @@ void	case_only_one_philo(t_data *data, t_conditions conditions)
 
 int	main(int argc, char **argv)
 {
-	t_conditions	conditions;
-	t_data			data;
-	t_philos		*philos;
-	t_allocations	*allocations;
+	t_conditions	conditions; // 条件（コマンドライン引数）
+	t_data			central; // 全体のデータ
+	t_philos		*philos; // 哲学者一人ひとりのデータ
+	t_allocations	*allocations; // メモリ確保の情報
 
 	allocations = NULL;
 	if (!validate_and_get_conditions(argc, argv, &conditions))
 		return (1);
 	philos = malloc(sizeof(t_philos) * conditions.num_of_philos);
-	if (!init_data(&data, philos, conditions, allocations)
-		|| !init_philos(&data, philos, &conditions, allocations))
+	if (!init_data(&central, philos, conditions, allocations)
+		|| !init_philos(&central, philos, &conditions, allocations))
 	{
 		// free_allocations(&allocations);
 		return (1);
 	}
 	if (conditions.num_of_philos == 1)
-		case_only_one_philo(&data, conditions);
+		case_only_one_philo(&central, conditions);
 	else
 	{
-		thread_create(&data, philos, conditions);
-		thread_destroy(&data, conditions);
+		thread_create(&central, philos, conditions);
+		thread_destroy(&central, conditions);
 	}
 	// free_allocations(&allocations);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/25 18:30:14 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:58:53 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 	bool			dead_flag;
 	bool			finished;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	data_lock;
+	pthread_mutex_t	time_lock;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	eat_lock;
 	pthread_mutex_t	dead_lock;
@@ -65,13 +65,14 @@ typedef struct s_philos
 	t_conditions	*conditions;
 	__uint64_t		start_time;
 	__uint64_t		last_eat_time;
-	bool			finished;
+	bool			*finished;
 	bool			*dead;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*print_lock;
 	pthread_mutex_t	*eat_lock;
 	pthread_mutex_t *dead_lock;
+	pthread_mutex_t	*time_lock;
 	t_data			*data;
 }	t_philos;
 

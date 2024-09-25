@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 18:32:02 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:01:59 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ bool	check_finished(t_philos *philos)
 	i = 0;
 	finished = 0;
 	conditions = *philos[0].conditions;
-	if (conditions.must_eat == -1)
-		return (false);
 	while (i < conditions.num_of_philos)
 	{
 		pthread_mutex_lock(philos[i].eat_lock);

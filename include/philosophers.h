@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/25 16:48:06 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:00:50 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@
 typedef struct timeval	t_timeval;
 
 /* defining the structure for the philosophers */
-typedef struct s_conditions
-{
-	int			num_of_philos;
-	__uint64_t	time_to_die;
-	__uint64_t	time_to_eat;
-	__uint64_t	time_to_sleep;
-	int			num_of_meals;
-}	t_conditions;
-
 typedef struct s_data
 {
 	bool			dead;
@@ -54,14 +45,23 @@ typedef struct s_data
 	struct s_philos	*philos;
 }	t_data;
 
+typedef struct s_conditions
+{
+	int			num_of_philos;
+	__uint64_t	time_to_die;
+	__uint64_t	time_to_eat;
+	__uint64_t	time_to_sleep;
+	int			must_eat;
+}	t_conditions;
+
 typedef struct s_philos
 {
 	pthread_t		thread;
 	int				id;
+	__uint64_t		eat_count;
 	t_conditions	*conditions;
 	__uint64_t		start_time;
-	__uint64_t		last_meal_time;
-	__uint64_t		eat_count;
+	__uint64_t		last_eat_time;
 	bool			finished;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;

@@ -6,24 +6,24 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/25 17:13:40 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:29:21 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-bool	thread_create(t_data *data, t_philos *philos, t_conditions conditions)
+void	thread_create(t_data *data, t_philos *philos, t_conditions conditions)
 {
-	int	i;
+	int				i;
 	pthread_t		monitor;
 
 	if (pthread_create(&monitor, NULL, &program_observer, philos))
-		return (false);
+		return ;
 	i = 0;
 	while (i < conditions.num_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &lifecycle, &philos[i]))
-			return (false);
+			return ;
 		i += 2;
 	}
 	usleep(50);
@@ -31,17 +31,18 @@ bool	thread_create(t_data *data, t_philos *philos, t_conditions conditions)
 	while (i < conditions.num_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, lifecycle, &data->philos[i]))
-			return (false);
+			return ;
 		i += 2;
 	}
-	pthread_detach(monitor);
 	i = 0;
+	if (pthread_join(monitor, NULL))
+		return ;
 	while (i < conditions.num_of_philos)
 	{
-		pthread_detach(philos[i].thread);
+		if (pthread_join(data->philos[i].thread, NULL))
+			return ;
 		i++;
 	}
-	return (true);
 }
 
 void	thread_destroy(t_data *data, t_conditions conditions)
@@ -56,8 +57,8 @@ void	thread_destroy(t_data *data, t_conditions conditions)
 	}
 	pthread_mutex_destroy(&data->data_lock);
 	pthread_mutex_destroy(&data->print_lock);
-	free(data->forks);
-	free(data->philos);
+	pthread_mutex_destroy(&data->eat_lock);
+	pthread_mutex_destroy(&data->dead_lock);
 }
 
 void	case_only_one_philo(t_data *data, t_conditions conditions)
@@ -81,7 +82,7 @@ int	main(int argc, char **argv)
 	if (!init_data(&data, philos, conditions, allocations)
 		|| !init_philos(&data, philos, &conditions, allocations))
 	{
-		free_allocations(&allocations);
+		// free_allocations(&allocations);
 		return (1);
 	}
 	if (conditions.num_of_philos == 1)
@@ -91,6 +92,6 @@ int	main(int argc, char **argv)
 		thread_create(&data, philos, conditions);
 		thread_destroy(&data, conditions);
 	}
-	free_allocations(&allocations);
+	// free_allocations(&allocations);
 	return (0);
 }

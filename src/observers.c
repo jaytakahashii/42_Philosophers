@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 18:00:50 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:32:02 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,49 +16,54 @@ bool	check_finished(t_philos *philos)
 {
 	int	i;
 	int	finished;
+	t_conditions	conditions;
 
 	i = 0;
 	finished = 0;
-	if (philos[0].conditions->must_eat == -1)
+	conditions = *philos[0].conditions;
+	if (conditions.must_eat == -1)
 		return (false);
-	while (i < philos[0].conditions->num_of_philos)
+	while (i < conditions.num_of_philos)
 	{
-		pthread_mutex_lock(&philos[i].data->data_lock);
+		pthread_mutex_lock(philos[i].eat_lock);
 		if (philos[i].finished)
 			finished++;
-		pthread_mutex_unlock(&philos[i].data->data_lock);
+		pthread_mutex_unlock(philos[i].eat_lock);
 		i++;
 	}
-	if (finished == philos[0].conditions->num_of_philos)
+	if (finished == conditions.num_of_philos)
 	{
-		pthread_mutex_lock(&philos[0].data->data_lock);
+		pthread_mutex_lock(philos[0].dead_lock);
 		philos[0].data->finished = true;
-		pthread_mutex_unlock(&philos[0].data->data_lock);
+		pthread_mutex_unlock(philos[0].dead_lock);
 		return (true);
 	}
-	else
-		return (false);
+	return (false);
 }
 
 bool	check_death(t_philos *philos)
 {
 	int	i;
 	t_data	*data;
+	t_conditions	conditions;
 
 	i = 0;
 	data = philos[0].data;
-	while (i < philos[0].conditions->num_of_philos)
+	conditions = *philos[0].conditions;
+	while (i < conditions.num_of_philos)
 	{
-		pthread_mutex_lock(&data->data_lock);
-		if (get_time_in_ms() - philos[i].last_eat_time > philos[i].conditions->time_to_die)
+		pthread_mutex_lock(&data->eat_lock);
+		if (get_time_in_ms() - philos[i].last_eat_time >= conditions.time_to_die && !philos[i].is_eating)
 		{
 			log_event(data, philos[i].id, "died");
-			data->dead = true;
-			pthread_mutex_unlock(&data->data_lock);
+			pthread_mutex_lock(&data->dead_lock);
+			data->dead_flag = true;
+			pthread_mutex_unlock(&data->dead_lock);
+			pthread_mutex_unlock(&data->eat_lock);
 			return (true);
 		}
+		pthread_mutex_unlock(&data->eat_lock);
 		i++;
-		pthread_mutex_unlock(&data->data_lock);
 	}
 	return (false);
 }

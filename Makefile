@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/09/23 16:09:27 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/25 17:17:19 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ DEPS = $(MAKEFILE) $(HEADERS)
 
 # コンパイル設定
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-DEBUG = -fsanitize=address,undefined -g
+# CFLAGS = -Wall -Wextra -Werror
+# DEBUG = -fsanitize=address -g
 
 # クリーンアップコマンド
 RM = rm -rf
@@ -43,10 +43,10 @@ NORM = norminette
 UTILS_DIR = 	utils/
 
 # 各ディレクトリ内のソースファイル
-UTILS_SRC = 	utils.c ft_uint_atoi.c ft_malloc.c
+UTILS_SRC = 	utils.c atoi.c ft_malloc.c
 
 # ソースファイル
-SRC_FILES = main.c validate_check.c philosophers.c initialize.c
+SRC_FILES = main.c conditions.c philosophers.c initialize.c observers.c
 
 # ソースファイルをまとめる
 SRC_FILES += $(addprefix $(UTILS_DIR), $(UTILS_SRC))

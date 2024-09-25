@@ -6,101 +6,90 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/23 19:07:18 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:13:40 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	*monitor_philosophers(void *arg)
+bool	thread_create(t_data *data, t_philos *philos, t_conditions conditions)
 {
-	t_data			*data;
-	unsigned long	count;
+	int	i;
+	pthread_t		monitor;
 
-	data = (t_data *)arg;
-	while (!data->stop_simulation)
+	if (pthread_create(&monitor, NULL, &program_observer, philos))
+		return (false);
+	i = 0;
+	while (i < conditions.num_of_philos)
 	{
-		count = 0;
-		while (count < data->conditions.num_of_philos)
-		{
-			if (get_time_in_ms() - data->philos[count].last_meal_time
-				> data->conditions.time_to_die)
-			{
-				log_event(data, data->philos[count].id, "died");
-				data->stop_simulation = true;
-				break ;
-			}
-			count++;
-		}
-		usleep(1000);
+		if (pthread_create(&philos[i].thread, NULL, &lifecycle, &philos[i]))
+			return (false);
+		i += 2;
 	}
-	return (NULL);
+	usleep(50);
+	i = 1;
+	while (i < conditions.num_of_philos)
+	{
+		if (pthread_create(&philos[i].thread, NULL, lifecycle, &data->philos[i]))
+			return (false);
+		i += 2;
+	}
+	pthread_detach(monitor);
+	i = 0;
+	while (i < conditions.num_of_philos)
+	{
+		pthread_detach(philos[i].thread);
+		i++;
+	}
+	return (true);
 }
 
-void	create_loop(t_data *data)
+void	thread_destroy(t_data *data, t_conditions conditions)
 {
-	unsigned long	count;
-	pthread_t		monitor_thread;
+	int	i;
 
-	count = 0;
-	pthread_create(&monitor_thread, NULL, monitor_philosophers, data);
-	while (count < data->conditions.num_of_philos)
+	i = 0;
+	while (i < conditions.num_of_philos)
 	{
-		pthread_create(
-			&data->philos[count].thread,
-			NULL,
-			philosopher_lifecycle,
-			&data->philos[count]);
-		count++;
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
 	}
-	pthread_join(monitor_thread, NULL);
-}
-
-void	destroy_loop(t_data *data)
-{
-	unsigned long	count;
-
-	count = 0;
-	while (count < data->conditions.num_of_philos)
-	{
-		pthread_join(data->philos[count].thread, NULL);
-		count++;
-	}
-	count = 0;
-	while (count < data->conditions.num_of_philos)
-	{
-		pthread_mutex_destroy(&data->forks[count]);
-		count++;
-	}
+	pthread_mutex_destroy(&data->data_lock);
 	pthread_mutex_destroy(&data->print_lock);
+	free(data->forks);
+	free(data->philos);
 }
 
-void	case_only_one_philo(t_data *data)
+void	case_only_one_philo(t_data *data, t_conditions conditions)
 {
-	log_event(data, 1, "has taken a fork");
-	usleep(data->conditions.time_to_die * 1000);
-	log_event(data, 1, "died");
+	printf("%d %d %s\n", 0, 1, "is eating");
+	ft_usleep(conditions.time_to_die);
+	printf("%ld %d %s\n", conditions.time_to_die, 1, "died");
 }
 
 int	main(int argc, char **argv)
 {
+	t_conditions	conditions;
 	t_data			data;
+	t_philos		*philos;
 	t_allocations	*allocations;
 
 	allocations = NULL;
-	if (!validate_check(argc, argv, &data.conditions))
+	if (!validate_and_get_conditions(argc, argv, &conditions))
 		return (1);
-	if (!init_data(&data, allocations) || !init_philos(&data))
+	philos = malloc(sizeof(t_philos) * conditions.num_of_philos);
+	if (!init_data(&data, philos, conditions, allocations)
+		|| !init_philos(&data, philos, &conditions, allocations))
 	{
 		free_allocations(&allocations);
 		return (1);
 	}
-	if (data.conditions.num_of_philos == 1)
-		case_only_one_philo(&data);
+	if (conditions.num_of_philos == 1)
+		case_only_one_philo(&data, conditions);
 	else
 	{
-		create_loop(&data);
-		destroy_loop(&data);
+		thread_create(&data, philos, conditions);
+		thread_destroy(&data, conditions);
 	}
 	free_allocations(&allocations);
 	return (0);

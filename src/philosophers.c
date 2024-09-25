@@ -6,70 +6,49 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:45:30 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/23 18:37:32 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:04:22 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 // philosopher : eat -> sleep -> think -> eat -> sleep -> think -> ...
-bool	get_forks(t_data *data)
+void	philo_eat(t_philos *philo)
 {
-	if (data->philos->id % 2 == 0)
-	{
-		pthread_mutex_lock(data->philos->right_fork);
-		pthread_mutex_lock(data->philos->left_fork);
-	}
-	else
-	{
-		pthread_mutex_lock(data->philos->left_fork);
-		pthread_mutex_lock(data->philos->right_fork);
-	}
-	data->philos->is_eating = true;
-	if (data->stop_simulation)
-	{
-		pthread_mutex_unlock(data->philos->left_fork);
-		pthread_mutex_unlock(data->philos->right_fork);
-		return (false);
-	}
-	log_event(data, data->philos->id, "has taken a fork");
-	return (true);
+	pthread_mutex_lock(philo->r_fork);
+	log_event(philo->data, philo->id, "has taken a fork");
+	pthread_mutex_lock(philo->l_fork);
+	log_event(philo->data, philo->id, "has taken a fork");
+	log_event(philo->data, philo->id, "is eating");
+	pthread_mutex_lock(&philo->data->data_lock);
+	philo->last_meal_time = get_time_in_ms();
+	philo->eat_count++;
+	pthread_mutex_unlock(&philo->data->data_lock);
+	ft_usleep(philo->conditions->time_to_eat);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
 }
 
-void	put_forks(t_data *data)
+void	philo_sleep(t_philos *philo)
 {
-	pthread_mutex_unlock(data->philos->left_fork);
-	pthread_mutex_unlock(data->philos->right_fork);
-	data->philos->is_eating = false;
+	log_event(philo->data, philo->id, "is sleeping");
+	ft_usleep(philo->conditions->time_to_sleep);
 }
 
-bool	eat(t_data *data)
+void	philo_think(t_philos *philo)
 {
-	if (data->stop_simulation)
-		return (false);
-	data->philos->last_meal_time = get_time_in_ms();
-	log_event(data, data->philos->id, "is eating");
-	usleep(data->conditions.time_to_eat * 1000);
-	return (true);
+	log_event(philo->data, philo->id, "is thinking");
 }
 
-void	*philosopher_lifecycle(void *arg)
+void	*lifecycle(void *arg)
 {
 	t_philos (*philos) = (t_philos *)arg;
-	while (!philos->data->stop_simulation)
+	while (philos->data->finished == false)
 	{
-		if (!get_forks(philos->data))
-			break ;
-		if (!eat(philos->data))
-			break ;
-		put_forks(philos->data);
-		if (philos->data->stop_simulation)
-			break ;
-		log_event(philos->data, philos->id, "is sleeping");
-		usleep(philos->data->conditions.time_to_sleep * 1000);
-		if (philos->data->stop_simulation)
-			break ;
-		log_event(philos->data, philos->id, "is thinking");
+		philo_eat(philos);
+		philo_sleep(philos);
+		philo_think(philos);
+
 	}
-	return (NULL);
+	return (arg);
 }

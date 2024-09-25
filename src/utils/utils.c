@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/23 18:38:30 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:30:38 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,35 @@ void	pass_space(char **str)
 		(*str)++;
 }
 
-unsigned long	get_time_in_ms(void)
+int	ft_usleep(__uint64_t time)
+{
+	__uint64_t	start_time;
+
+	start_time = get_time_in_ms();
+	while (get_time_in_ms() - start_time < time)
+	{
+		// printf("usleep\n");
+		usleep(100);
+	}
+	return (0);
+}
+
+__uint64_t	get_time_in_ms(void)
 {
 	t_timeval	time;
 
-	gettimeofday(&time, NULL);
+	if (gettimeofday(&time, NULL) == -1)
+		error_message("gettimeofday() failed", NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 void	log_event(t_data *data, int id, const char *event)
 {
-	unsigned long	timestamp;
+	__uint64_t	timestamp;
 
-	timestamp = get_time_in_ms() - data->start_time;
+	pthread_mutex_lock(&data->data_lock);
+	timestamp = get_time_in_ms() - data->philos[0].start_time;
+	pthread_mutex_unlock(&data->data_lock);
 	pthread_mutex_lock(&data->print_lock);
 	printf("%lu %d %s\n", timestamp, id, event);
 	pthread_mutex_unlock(&data->print_lock);

@@ -6,53 +6,50 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/23 19:13:17 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:57:36 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-bool	init_philos(t_data *data)
+bool	init_philos(t_data *data, t_philos *philos, t_conditions *conditions, t_allocations *allocations)
 {
-	int	left;
-	int	right;
+	int i = 0;
 
-	unsigned long (i) = 0;
-	while (i < data->conditions.num_of_philos)
+	// philos = ft_malloc((sizeof(t_philos) * conditions->num_of_philos), &allocations);
+	if (!philos)
+		return (false);
+	while (i < conditions->num_of_philos)
 	{
-		right = (i + data->conditions.num_of_philos - 1)
-			% data->conditions.num_of_philos;
-		left = (i + 1) % data->conditions.num_of_philos;
-		data->philos[i].id = i + 1;
-		data->philos[i].left_fork = &data->forks[left];
-		data->philos[i].right_fork = &data->forks[right];
-		data->philos[i].is_eating = false;
-		data->philos[i].last_meal_time = data->start_time;
-		data->philos[i].data = data;
+		philos[i].id = i + 1;
+		philos[i].conditions = conditions;
+		philos[i].start_time = get_time_in_ms();
+		philos[i].last_meal_time = get_time_in_ms();
+		philos[i].eat_count = 0;
+		philos[i].finished = false;
+		philos[i].data = data;
+		philos[i].l_fork = &data->forks[i];
+		if (i == 0)
+			philos[i].r_fork = &data->forks[conditions->num_of_philos - 1];
+		else
+			philos[i].r_fork = &data->forks[i - 1];
 		i++;
 	}
 	return (true);
 }
 
-bool	init_data(t_data *data, t_allocations *allocations)
+bool	init_data(t_data *data, t_philos *philos, t_conditions conditions, t_allocations *allocations)
 {
-	unsigned long (count) = 0;
-	data->stop_simulation = false;
-	data->start_time = get_time_in_ms();
-	data->forks = ft_malloc(
-			data->conditions.num_of_philos * sizeof(pthread_mutex_t),
-			&allocations);
+	data->dead = false;
+	data->finished = false;
+	data->philos = philos;
+	// data->forks = ft_malloc(sizeof(pthread_mutex_t) * conditions.num_of_philos, &allocations);
+	data->forks = malloc(sizeof(pthread_mutex_t) * conditions.num_of_philos);
 	if (!data->forks)
 		return (false);
-	data->philos = ft_malloc(
-			data->conditions.num_of_philos * sizeof(t_philos), &allocations);
-	if (!data->philos)
+	if (pthread_mutex_init(&data->data_lock, NULL))
 		return (false);
-	pthread_mutex_init(&data->print_lock, NULL);
-	while (count < data->conditions.num_of_philos)
-	{
-		pthread_mutex_init(&data->forks[count], NULL);
-		count++;
-	}
+	if (pthread_mutex_init(&data->print_lock, NULL))
+		return (false);
 	return (true);
 }

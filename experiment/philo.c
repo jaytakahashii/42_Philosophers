@@ -40,7 +40,7 @@ void log_event(t_data *data, int id, const char *event) {
     pthread_mutex_unlock(&data->print_lock);
 }
 
-void* philosopher_lifecycle(void* arg) {
+void* lifecycle(void* arg) {
     t_philosopher *philo = (t_philosopher*)arg;
 
     while (!philo->data->stop_simulation) {
@@ -70,7 +70,7 @@ void* philosopher_lifecycle(void* arg) {
     return NULL;
 }
 
-void* monitor_philosophers(void* arg) {
+void* program_observer(void* arg) {
     t_data *data = (t_data*)arg;
     while (!data->stop_simulation) {
         for (int i = 0; i < data->number_of_philosophers; i++) {
@@ -141,10 +141,10 @@ int main(int argc, char **argv) {
     }
 
     pthread_t monitor_thread;
-    pthread_create(&monitor_thread, NULL, monitor_philosophers, &data);
+    pthread_create(&monitor_thread, NULL, program_observer, &data);
 
     for (int i = 0; i < data.number_of_philosophers; i++) {
-        pthread_create(&data.philosophers[i].thread, NULL, philosopher_lifecycle, &data.philosophers[i]);
+        pthread_create(&data.philosophers[i].thread, NULL, lifecycle, &data.philosophers[i]);
     }
 
     for (int i = 0; i < data.number_of_philosophers; i++) {

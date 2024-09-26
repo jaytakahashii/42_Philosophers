@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:36:31 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	dead_check(t_philos *philo)
 {
 	pthread_mutex_lock(philo->dead_lock);
-	if (*philo->dead)
+	if (*philo->finish)
 	{
 		pthread_mutex_unlock(philo->dead_lock);
 		return (true);
@@ -46,7 +46,7 @@ bool	check_finished(t_philos *philos)
 	if (finished == conditions.num_of_philos)
 	{
 		pthread_mutex_lock(philos[0].dead_lock);
-		*philos->dead = true;
+		*philos->finish = true;
 		pthread_mutex_unlock(philos[0].dead_lock);
 		return (true);
 	}
@@ -80,7 +80,7 @@ bool	check_death(t_philos *philos)
 		if (philosopher_dead(&philos[i], conditions.time_to_die))
 		{
 			pthread_mutex_lock(&data->dead_lock);
-			*philos->dead = true;
+			*philos->finish = true;
 			pthread_mutex_unlock(&data->dead_lock);
 			log_event(data, philos[i].id, "died");
 			return (true);

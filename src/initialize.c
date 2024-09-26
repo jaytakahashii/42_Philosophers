@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:36:31 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	init_philos(t_central *central, t_philos *philos, t_conditions *cond)
 		philos[i].conditions = cond;
 		philos[i].start_time = get_time_in_ms();
 		philos[i].last_eat_time = get_time_in_ms();
-		philos[i].dead = &central->dead_flag;
+		philos[i].finish = &central->finish;
 		philos[i].central = central;
 		philos[i].print_lock = &central->print_lock;
 		philos[i].eat_lock = &central->eat_lock;
@@ -52,8 +52,7 @@ bool	init_philos(t_central *central, t_philos *philos, t_conditions *cond)
 
 bool	init_data(t_central *data, t_philos *philos, t_conditions conditions)
 {
-	data->dead_flag = false;
-	data->finished = false;
+	data->finish = false;
 	data->philos = philos;
 	data->forks = malloc(sizeof(pthread_mutex_t) * conditions.num_of_philos);
 	if (!data->forks)

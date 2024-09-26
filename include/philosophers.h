@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:18:52 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:36:31 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ typedef struct timeval	t_timeval;
 /* defining the structure for the philosophers */
 typedef struct s_central
 {
-	bool			dead_flag;
-	bool			finished;
+	bool			finish;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	time_lock;
 	pthread_mutex_t	print_lock;
@@ -66,7 +65,7 @@ typedef struct s_philos
 	t_conditions	*conditions;
 	uint64_t		start_time;
 	uint64_t		last_eat_time;
-	bool			*dead;
+	bool			*finish;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*print_lock;

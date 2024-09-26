@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 19:31:42 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:59:19 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	dead_check(t_philos *philo)
 	return (false);
 }
 
-bool	check_finished(t_philos *philos)
+static bool	check_finished(t_philos *philo)
 {
 	uint64_t		i;
 	uint64_t		finished;
@@ -32,28 +32,28 @@ bool	check_finished(t_philos *philos)
 
 	i = 0;
 	finished = 0;
-	conditions = *philos[0].conditions;
+	conditions = *philo[0].conditions;
 	if (conditions.must_eat == 0)
 		return (false);
 	while (i < conditions.num_of_philos)
 	{
-		pthread_mutex_lock(philos[i].eat_lock);
-		if (philos[i].eat_count >= conditions.must_eat)
+		pthread_mutex_lock(philo[i].eat_lock);
+		if (philo[i].eat_count >= conditions.must_eat)
 			finished++;
-		pthread_mutex_unlock(philos[i].eat_lock);
+		pthread_mutex_unlock(philo[i].eat_lock);
 		i++;
 	}
 	if (finished == conditions.num_of_philos)
 	{
-		pthread_mutex_lock(philos[0].dead_lock);
-		*philos->finish = true;
-		pthread_mutex_unlock(philos[0].dead_lock);
+		pthread_mutex_lock(philo[0].dead_lock);
+		*philo->finish = true;
+		pthread_mutex_unlock(philo[0].dead_lock);
 		return (true);
 	}
 	return (false);
 }
 
-bool	philosopher_dead(t_philos *philo, uint64_t time_to_die)
+static bool	philosopher_dead(t_philos *philo, uint64_t time_to_die)
 {
 	pthread_mutex_lock(philo->eat_lock);
 	if (get_time_in_ms() - philo->last_eat_time >= time_to_die
@@ -66,23 +66,23 @@ bool	philosopher_dead(t_philos *philo, uint64_t time_to_die)
 	return (false);
 }
 
-bool	check_death(t_philos *philos)
+static bool	check_death(t_philos *philo)
 {
 	uint64_t		i;
 	t_central		*cent;
 	t_conditions	conditions;
 
 	i = 0;
-	cent = philos[0].central;
-	conditions = *philos[0].conditions;
+	cent = philo[0].central;
+	conditions = *philo[0].conditions;
 	while (i < conditions.num_of_philos)
 	{
-		if (philosopher_dead(&philos[i], conditions.time_to_die))
+		if (philosopher_dead(&philo[i], conditions.time_to_die))
 		{
 			pthread_mutex_lock(&cent->dead_lock);
-			*philos->finish = true;
+			*philo->finish = true;
 			pthread_mutex_unlock(&cent->dead_lock);
-			log_event(cent, philos[i].id, "died");
+			log_event(cent, philo[i].id, "died");
 			return (true);
 		}
 		i++;

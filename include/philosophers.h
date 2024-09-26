@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:52:13 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:00:22 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_philos
 // utils/
 void		error_message(char *main_msg, char *sub_msg);
 void		pass_space(char **str);
-void		log_event(t_central *central, int id, const char *event);
+void		log_event(t_central *cent, int id, const char *event);
 uint64_t	get_time_in_ms(void);
 void		ft_usleep(uint64_t time);
 
@@ -86,16 +86,16 @@ bool		is_uint_atoi(char *str, uint64_t *num);
 
 // validate_check.c
 bool		validate_and_get_conditions(int ac, char **av,
-				t_conditions *conditions);
+				t_conditions *cond);
 
 void		*lifecycle(void *arg);
 
 // initialize.c
-bool		init_central(t_central *central, t_philos *philos,
-				t_conditions conditions);
-bool		init_philos(t_central *central, t_philos *philos,
-				t_conditions *conditions);
-void		conditions_init(t_conditions *conditions);
+bool		init_central(t_central *cent, t_philos *philo,
+				t_conditions cond);
+bool		init_philos(t_central *cent, t_philos *philo,
+				t_conditions *cond);
+void		conditions_init(t_conditions *cond);
 
 // observers.c
 void		*philos_observer(void *arg);

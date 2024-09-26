@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 19:12:23 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:15:20 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ bool	init_data(t_central *data, t_philos *philos, t_conditions conditions)
 	if (!data->forks)
 	{
 		error_message("Malloc failed", NULL);
+		free(philos);
 		return (false);
 	}
 	if (pthread_mutex_init(&data->print_lock, NULL)

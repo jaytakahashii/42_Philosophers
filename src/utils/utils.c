@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 19:23:26 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:27:21 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ uint64_t	get_time_in_ms(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void	log_event(t_central *data, int id, const char *event)
+void	log_event(t_central *cent, int id, const char *event)
 {
 	uint64_t	timestamp;
 
-	pthread_mutex_lock(&data->time_lock);
-	timestamp = get_time_in_ms() - data->philos[0].start_time;
-	pthread_mutex_unlock(&data->time_lock);
-	pthread_mutex_lock(&data->print_lock);
+	pthread_mutex_lock(&cent->time_lock);
+	timestamp = get_time_in_ms() - cent->philos[0].start_time;
+	pthread_mutex_unlock(&cent->time_lock);
+	pthread_mutex_lock(&cent->print_lock);
 	printf("%" PRIu64 " %d %s\n", timestamp, id, event);
-	pthread_mutex_unlock(&data->print_lock);
+	pthread_mutex_unlock(&cent->print_lock);
 }

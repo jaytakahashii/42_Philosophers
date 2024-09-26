@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:36:31 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:27:14 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,20 @@ bool	philosopher_dead(t_philos *philo, uint64_t time_to_die)
 bool	check_death(t_philos *philos)
 {
 	uint64_t		i;
-	t_central		*data;
+	t_central		*cent;
 	t_conditions	conditions;
 
 	i = 0;
-	data = philos[0].central;
+	cent = philos[0].central;
 	conditions = *philos[0].conditions;
 	while (i < conditions.num_of_philos)
 	{
 		if (philosopher_dead(&philos[i], conditions.time_to_die))
 		{
-			pthread_mutex_lock(&data->dead_lock);
+			pthread_mutex_lock(&cent->dead_lock);
 			*philos->finish = true;
-			pthread_mutex_unlock(&data->dead_lock);
-			log_event(data, philos[i].id, "died");
+			pthread_mutex_unlock(&cent->dead_lock);
+			log_event(cent, philos[i].id, "died");
 			return (true);
 		}
 		i++;

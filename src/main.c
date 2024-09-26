@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:15:10 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:26:22 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	main(int argc, char **argv)
 		error_message("Malloc failed", NULL);
 		return (1);
 	}
-	if (!init_data(&central, philos, conditions)
+	if (!init_central(&central, philos, conditions)
 		|| !init_philos(&central, philos, &conditions))
 		return (1);
 	if (conditions.num_of_philos == 1)

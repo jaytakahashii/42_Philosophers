@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:10:31 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:26:22 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool		validate_and_get_conditions(int ac, char **av,
 void		*lifecycle(void *arg);
 
 // initialize.c
-bool		init_data(t_central *central, t_philos *philos,
+bool		init_central(t_central *central, t_philos *philos,
 				t_conditions conditions);
 bool		init_philos(t_central *central, t_philos *philos,
 				t_conditions *conditions);

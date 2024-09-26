@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:32:58 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:34:15 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ void	thread_create(t_central *central, t_philos *philos, t_conditions cond)
 	pthread_t	monitor;
 	uint64_t	i;
 
-	if (pthread_create(&monitor, NULL, &philos_observer, philos))
+	if (pthread_create(&monitor, NULL, &philos_observer, philos)
+		|| !philos_thread_create(philos, &cond))
+	{
+		error_message("Thread creation failed", NULL);
 		return ;
-	if (!philos_thread_create(philos, &cond))
-		return ;
+	}
 	if (pthread_join(monitor, NULL))
 		return ;
 	i = 0;

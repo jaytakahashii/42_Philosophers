@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 17:53:23 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	conditions_init(t_conditions *conditions)
 
 bool	init_philos(t_central *central, t_philos *philos, t_conditions *cond)
 {
-	__uint64_t (i) = 0;
+	uint64_t (i) = 0;
 	if (!philos)
 		return (false);
 	while (i < cond->num_of_philos)

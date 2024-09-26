@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:40:06 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:02:36 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	negative_check(char **str)
 	return (true);
 }
 
-static bool	is_ulong(__uint64_t num, char str_i)
+static bool	is_ulong(uint64_t num, char str_i)
 {
 	if (num > LONG_MAX / 10 || (num == LONG_MAX / 10 && str_i >= '6'))
 	{
@@ -41,7 +41,7 @@ static bool	is_ulong(__uint64_t num, char str_i)
 	return (true);
 }
 
-bool	is_uint_atoi(char *str, __uint64_t *num)
+bool	is_uint_atoi(char *str, uint64_t *num)
 {
 	if (!str || !*str || !num)
 	{

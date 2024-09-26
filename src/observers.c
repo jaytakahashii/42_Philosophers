@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:02:07 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ bool	dead_check(t_philos *philo)
 
 bool	check_finished(t_philos *philos)
 {
-	__uint64_t		i;
-	__uint64_t		finished;
+	uint64_t		i;
+	uint64_t		finished;
 	t_conditions	conditions;
 
 	i = 0;
@@ -53,7 +53,7 @@ bool	check_finished(t_philos *philos)
 	return (false);
 }
 
-bool	philosopher_dead(t_philos *philo, __uint64_t time_to_die)
+bool	philosopher_dead(t_philos *philo, uint64_t time_to_die)
 {
 	pthread_mutex_lock(philo->eat_lock);
 	if (get_time_in_ms() - philo->last_eat_time >= time_to_die
@@ -68,7 +68,7 @@ bool	philosopher_dead(t_philos *philo, __uint64_t time_to_die)
 
 bool	check_death(t_philos *philos)
 {
-	__uint64_t		i;
+	uint64_t		i;
 	t_central		*data;
 	t_conditions	conditions;
 

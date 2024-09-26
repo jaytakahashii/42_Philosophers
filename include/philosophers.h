@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:04:36 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ typedef struct s_central
 
 typedef struct s_conditions
 {
-	__uint64_t	num_of_philos;
-	__uint64_t	time_to_die;
-	__uint64_t	time_to_eat;
-	__uint64_t	time_to_sleep;
-	__uint64_t	must_eat;
+	uint64_t	num_of_philos;
+	uint64_t	time_to_die;
+	uint64_t	time_to_eat;
+	uint64_t	time_to_sleep;
+	uint64_t	must_eat;
 }	t_conditions;
 
 typedef struct s_philos
@@ -61,10 +61,10 @@ typedef struct s_philos
 	pthread_t		thread;
 	int				id;
 	bool			is_eating;
-	__uint64_t		eat_count;
+	uint64_t		eat_count;
 	t_conditions	*conditions;
-	__uint64_t		start_time;
-	__uint64_t		last_eat_time;
+	uint64_t		start_time;
+	uint64_t		last_eat_time;
 	bool			*dead;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -87,11 +87,11 @@ typedef struct s_allocations
 void		error_message(char *main_msg, char *sub_msg);
 void		pass_space(char **str);
 void		log_event(t_central *central, int id, const char *event);
-__uint64_t	get_time_in_ms(void);
-int			ft_usleep(__uint64_t time);
+uint64_t	get_time_in_ms(void);
+int			ft_usleep(uint64_t time);
 
 // uint64_atoi.c
-bool		is_uint_atoi(char *str, __uint64_t *num);
+bool		is_uint_atoi(char *str, uint64_t *num);
 
 // ft_malloc.c
 bool		add_allocations(void *ptr, t_allocations **allocations);

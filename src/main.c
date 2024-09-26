@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:07:51 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	create_loop(t_philos *philos, t_conditions *conditions)
 {
-	__uint64_t	i;
+	uint64_t	i;
 
 	i = 0;
 	while (i < conditions->num_of_philos)
@@ -37,7 +37,7 @@ bool	create_loop(t_philos *philos, t_conditions *conditions)
 void	thread_create(t_central *central, t_philos *philos, t_conditions cond)
 {
 	pthread_t	monitor;
-	__uint64_t	i;
+	uint64_t	i;
 
 	if (pthread_create(&monitor, NULL, &program_observer, philos))
 		return ;
@@ -56,7 +56,7 @@ void	thread_create(t_central *central, t_philos *philos, t_conditions cond)
 
 void	thread_destroy(t_central *central, t_conditions conditions)
 {
-	__uint64_t	i;
+	uint64_t	i;
 
 	i = 0;
 	while (i < conditions.num_of_philos)

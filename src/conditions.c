@@ -6,13 +6,13 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 17:00:36 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 17:51:00 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static bool	is_zero(__uint64_t num)
+static bool	is_zero(uint64_t num)
 {
 	if (num == 0)
 	{

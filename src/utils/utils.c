@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:02:59 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	pass_space(char **str)
 		(*str)++;
 }
 
-int	ft_usleep(__uint64_t time)
+int	ft_usleep(uint64_t time)
 {
-	__uint64_t	start_time;
+	uint64_t	start_time;
 
 	start_time = get_time_in_ms();
 	while (get_time_in_ms() - start_time < time)
@@ -38,7 +38,7 @@ int	ft_usleep(__uint64_t time)
 	return (0);
 }
 
-__uint64_t	get_time_in_ms(void)
+uint64_t	get_time_in_ms(void)
 {
 	t_timeval	time;
 
@@ -49,7 +49,7 @@ __uint64_t	get_time_in_ms(void)
 
 void	log_event(t_central *data, int id, const char *event)
 {
-	__uint64_t	timestamp;
+	uint64_t	timestamp;
 
 	pthread_mutex_lock(&data->time_lock);
 	timestamp = get_time_in_ms() - data->philos[0].start_time;

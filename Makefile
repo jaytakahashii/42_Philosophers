@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/09/26 18:06:57 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/26 19:48:46 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ NORM = norminette
 UTILS_DIR = 	utils/
 
 # 各ディレクトリ内のソースファイル
-UTILS_SRC = 	utils.c atoi.c ft_malloc.c
+UTILS_SRC = 	utils.c atoi.c
 
 # ソースファイル
 SRC_FILES = main.c conditions.c philosophers.c initialize.c observers.c

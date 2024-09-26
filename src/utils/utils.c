@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 19:27:21 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:29:02 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ void	pass_space(char **str)
 		(*str)++;
 }
 
-int	ft_usleep(uint64_t time)
+void	ft_usleep(uint64_t time)
 {
 	uint64_t	start_time;
 
 	start_time = get_time_in_ms();
 	while (get_time_in_ms() - start_time < time)
 		usleep(100);
-	return (0);
 }
 
 uint64_t	get_time_in_ms(void)

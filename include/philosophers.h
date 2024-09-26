@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:26:22 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:29:18 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		error_message(char *main_msg, char *sub_msg);
 void		pass_space(char **str);
 void		log_event(t_central *central, int id, const char *event);
 uint64_t	get_time_in_ms(void);
-int			ft_usleep(uint64_t time);
+void		ft_usleep(uint64_t time);
 
 // uint64_atoi.c
 bool		is_uint_atoi(char *str, uint64_t *num);

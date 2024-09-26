@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:18:52 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/time.h>
 # include <time.h>
 # include <stdint.h>
+# include <inttypes.h>
 
 /* defining colors for the output */
 # define RED "\033[0;31m"

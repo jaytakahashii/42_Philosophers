@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:18:35 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	case_only_one_philo(t_conditions conditions)
 {
 	printf("%d %d %s\n", 0, 1, "is eating");
 	ft_usleep(conditions.time_to_die);
-	printf("%ld %d %s\n", conditions.time_to_die, 1, "died");
+	printf("%" PRIu64 " %d %s\n", conditions.time_to_die, 1, "died");
 }
 
 int	main(int argc, char **argv)

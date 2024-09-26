@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:18:35 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:12:57 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,11 @@ int	main(int argc, char **argv)
 	if (!validate_and_get_conditions(argc, argv, &conditions))
 		return (1);
 	philos = malloc(sizeof(t_philos) * conditions.num_of_philos);
+	if (!philos)
+	{
+		error_message("Malloc failed", NULL);
+		return (1);
+	}
 	if (!init_data(&central, philos, conditions)
 		|| !init_philos(&central, philos, &conditions))
 		return (1);
@@ -97,5 +102,7 @@ int	main(int argc, char **argv)
 		thread_create(&central, philos, conditions);
 		thread_destroy(&central, conditions);
 	}
+	free(philos);
+	free(central.forks);
 	return (0);
 }

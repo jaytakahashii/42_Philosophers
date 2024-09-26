@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:36:31 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:10:31 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,6 @@ typedef struct s_philos
 	t_central		*central;
 }	t_philos;
 
-/* defining the structure for the allocations */
-typedef struct s_allocations
-{
-	void					*ptr;
-	struct s_allocations	*next;
-}	t_allocations;
-
 /* function prototypes */
 // utils/
 void		error_message(char *main_msg, char *sub_msg);
@@ -92,11 +85,6 @@ int			ft_usleep(uint64_t time);
 
 // uint64_atoi.c
 bool		is_uint_atoi(char *str, uint64_t *num);
-
-// ft_malloc.c
-bool		add_allocations(void *ptr, t_allocations **allocations);
-void		free_allocations(t_allocations **allocations);
-void		*ft_malloc(size_t size, t_allocations **allocations);
 
 // validate_check.c
 bool		validate_and_get_conditions(int ac, char **av,

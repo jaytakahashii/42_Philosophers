@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:36:31 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:12:23 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,17 @@ bool	init_data(t_central *data, t_philos *philos, t_conditions conditions)
 	data->philos = philos;
 	data->forks = malloc(sizeof(pthread_mutex_t) * conditions.num_of_philos);
 	if (!data->forks)
+	{
+		error_message("Malloc failed", NULL);
 		return (false);
-	if (pthread_mutex_init(&data->print_lock, NULL))
+	}
+	if (pthread_mutex_init(&data->print_lock, NULL)
+		|| pthread_mutex_init(&data->eat_lock, NULL)
+		|| pthread_mutex_init(&data->dead_lock, NULL)
+		|| pthread_mutex_init(&data->time_lock, NULL))
+	{
+		error_message("Mutex init failed", NULL);
 		return (false);
-	if (pthread_mutex_init(&data->eat_lock, NULL))
-		return (false);
-	if (pthread_mutex_init(&data->dead_lock, NULL))
-		return (false);
-	if (pthread_mutex_init(&data->time_lock, NULL))
-		return (false);
+	}
 	return (true);
 }

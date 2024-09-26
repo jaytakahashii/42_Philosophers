@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 19:29:02 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:51:53 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	log_event(t_central *cent, int id, const char *event)
 {
 	uint64_t	timestamp;
 
-	pthread_mutex_lock(&cent->time_lock);
+	pthread_mutex_lock(&cent->eat_lock);
 	timestamp = get_time_in_ms() - cent->philos[0].start_time;
-	pthread_mutex_unlock(&cent->time_lock);
+	pthread_mutex_unlock(&cent->eat_lock);
 	pthread_mutex_lock(&cent->print_lock);
 	printf("%" PRIu64 " %d %s\n", timestamp, id, event);
 	pthread_mutex_unlock(&cent->print_lock);

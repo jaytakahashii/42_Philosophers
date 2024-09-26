@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 19:28:03 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:52:32 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ bool	init_philos(t_central *cent, t_philos *philos, t_conditions *cond)
 		philos[i].print_lock = &cent->print_lock;
 		philos[i].eat_lock = &cent->eat_lock;
 		philos[i].dead_lock = &cent->dead_lock;
-		philos[i].time_lock = &cent->time_lock;
 		philos[i].l_fork = &cent->forks[i];
 		if (i == 0)
 			philos[i].r_fork = &cent->forks[cond->num_of_philos - 1];
@@ -63,8 +62,7 @@ bool	init_central(t_central *cent, t_philos *philos, t_conditions conditions)
 	}
 	if (pthread_mutex_init(&cent->print_lock, NULL)
 		|| pthread_mutex_init(&cent->eat_lock, NULL)
-		|| pthread_mutex_init(&cent->dead_lock, NULL)
-		|| pthread_mutex_init(&cent->time_lock, NULL))
+		|| pthread_mutex_init(&cent->dead_lock, NULL))
 	{
 		error_message("Mutex init failed", NULL);
 		return (false);

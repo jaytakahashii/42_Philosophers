@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:34:15 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:52:00 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	thread_destroy(t_central *central, t_conditions conditions)
 		pthread_mutex_destroy(&central->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&central->time_lock);
 	pthread_mutex_destroy(&central->print_lock);
 	pthread_mutex_destroy(&central->eat_lock);
 	pthread_mutex_destroy(&central->dead_lock);

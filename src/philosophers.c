@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:45:30 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:02:24 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:53:04 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ void	philo_eat(t_philos *philo)
 	}
 	log_event(philo->central, philo->id, "is eating");
 	pthread_mutex_lock(&philo->central->eat_lock);
-	pthread_mutex_lock(&philo->central->time_lock);
 	philo->last_eat_time = get_time_in_ms();
-	pthread_mutex_unlock(&philo->central->time_lock);
 	philo->eat_count++;
 	pthread_mutex_unlock(&philo->central->eat_lock);
 	ft_usleep(philo->conditions->time_to_eat);

@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:31:42 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:52:13 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_central
 {
 	bool			finish;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	time_lock;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	eat_lock;
 	pthread_mutex_t	dead_lock;
@@ -71,7 +70,6 @@ typedef struct s_philos
 	pthread_mutex_t	*print_lock;
 	pthread_mutex_t	*eat_lock;
 	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*time_lock;
 	t_central		*central;
 }	t_philos;
 

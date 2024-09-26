@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:21:33 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:23:26 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ uint64_t	get_time_in_ms(void)
 {
 	t_timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		error_message("gettimeofday() failed", NULL);
+	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:12:57 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:14:41 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,5 @@ int	main(int argc, char **argv)
 		thread_create(&central, philos, conditions);
 		thread_destroy(&central, conditions);
 	}
-	free(philos);
-	free(central.forks);
-	return (0);
+	return (free(philos), free(central.forks), 0);
 }

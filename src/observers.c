@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 16:39:03 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:05:02 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 bool	check_finished(t_philos *philos)
 {
-	int	i;
-	int	finished;
+	__uint64_t	i;
+	__uint64_t	finished;
 	t_conditions	conditions;
 
 	i = 0;
 	finished = 0;
 	conditions = *philos[0].conditions;
-	if (conditions.must_eat == -1)
+	if (conditions.must_eat == 0)
 		return (false);
 	while (i < conditions.num_of_philos)
 	{
@@ -55,12 +55,12 @@ bool	philosopher_dead(t_philos *philo, __uint64_t time_to_die)
 
 bool	check_death(t_philos *philos)
 {
-	int	i;
-	t_data	*data;
+	__uint64_t	i;
+	t_central	*data;
 	t_conditions	conditions;
 
 	i = 0;
-	data = philos[0].data;
+	data = philos[0].central;
 	conditions = *philos[0].conditions;
 	while (i < conditions.num_of_philos)
 	{

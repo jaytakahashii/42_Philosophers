@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 16:32:43 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:00:26 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 typedef struct timeval	t_timeval;
 
 /* defining the structure for the philosophers */
-typedef struct s_data
+typedef struct s_central
 {
 	bool			dead_flag;
 	bool			finished;
@@ -45,15 +45,15 @@ typedef struct s_data
 	pthread_mutex_t	eat_lock;
 	pthread_mutex_t	dead_lock;
 	struct s_philos	*philos;
-}	t_data;
+}	t_central;
 
 typedef struct s_conditions
 {
-	int			num_of_philos;
+	__uint64_t	num_of_philos;
 	__uint64_t	time_to_die;
 	__uint64_t	time_to_eat;
 	__uint64_t	time_to_sleep;
-	int			must_eat;
+	__uint64_t	must_eat;
 }	t_conditions;
 
 typedef struct s_philos
@@ -72,7 +72,7 @@ typedef struct s_philos
 	pthread_mutex_t	*eat_lock;
 	pthread_mutex_t *dead_lock;
 	pthread_mutex_t	*time_lock;
-	t_data			*data;
+	t_central			*central;
 }	t_philos;
 
 /* defining the structure for the allocations */
@@ -86,7 +86,7 @@ typedef struct s_allocations
 // utils/
 void		error_message(char *main_msg, char *sub_msg);
 void		pass_space(char **str);
-void		log_event(t_data *data, int id, const char *event);
+void		log_event(t_central *central, int id, const char *event);
 __uint64_t	get_time_in_ms(void);
 int			ft_usleep(__uint64_t time);
 
@@ -105,8 +105,8 @@ bool		validate_and_get_conditions(int ac, char **av, t_conditions *conditions);
 void		*lifecycle(void *arg);
 
 // initialize.c
-bool		init_data(t_data *data, t_philos *philos, t_conditions conditions, t_allocations *allocations);
-bool		init_philos(t_data *data, t_philos *philos, t_conditions *conditions, t_allocations *allocations);
+bool		init_data(t_central *central, t_philos *philos, t_conditions conditions);
+bool		init_philos(t_central *central, t_philos *philos, t_conditions *conditions);
 
 // observers.c
 void	*program_observer(void *arg);

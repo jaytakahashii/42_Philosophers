@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:40:06 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 16:30:38 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:09:06 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static bool	is_ulong(__uint64_t num, char str_i)
 
 bool	is_uint_atoi(char *str, __uint64_t *num)
 {
-	__uint64_t (*tmp) = 0;
 	if (!str || !*str || !num)
 	{
 		printf("bool_uint_atoi: false\n");

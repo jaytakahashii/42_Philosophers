@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 19:00:14 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:55:50 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ __uint64_t	get_time_in_ms(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void	log_event(t_data *data, int id, const char *event)
+void	log_event(t_central *data, int id, const char *event)
 {
 	__uint64_t	timestamp;
 

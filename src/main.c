@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:33 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 17:58:28 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:07:51 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ int	main(int argc, char **argv)
 	t_conditions	conditions;
 	t_central		central;
 	t_philos		*philos;
-	t_allocations	*allocations;
 
-	allocations = NULL;
 	conditions_init(&conditions);
 	if (!validate_and_get_conditions(argc, argv, &conditions))
 		return (1);

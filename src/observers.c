@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 20:09:03 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:16:15 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ static bool	check_finished(t_philos *philo)
 static bool	philosopher_dead(t_philos *philo, uint64_t time_to_die)
 {
 	pthread_mutex_lock(philo->eat_lock);
-	if (get_time_in_ms() - philo->last_eat_time >= time_to_die
-		&& !philo->is_eating)
+	if (get_time_in_ms() - philo->last_eat_time >= time_to_die)
 	{
 		pthread_mutex_unlock(philo->eat_lock);
 		return (true);

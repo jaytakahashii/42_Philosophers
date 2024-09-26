@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/09/26 16:54:15 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/26 17:33:43 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 MAKEFILE = Makefile
 
 # プロジェクト名
-NAME = philosophers
+NAME = philo
 
 # ソースファイルとオブジェクトファイルのディレクトリ
 SRC_DIR = src/

@@ -1,7 +1,9 @@
 .obj/
 
-philosophers
+philo
 
 .vscode/
 
 a.out
+
+LazyPhilosophersTester/

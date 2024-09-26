@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/08/19 19:30:30 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/26 18:06:57 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 MAKEFILE = Makefile
 
 # プロジェクト名
-NAME = philosophers
+NAME = philo
 
 # ソースファイルとオブジェクトファイルのディレクトリ
 SRC_DIR = src/
@@ -30,7 +30,8 @@ DEPS = $(MAKEFILE) $(HEADERS)
 
 # コンパイル設定
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address,undefined -g
+CFLAGS = -Wall -Wextra -Werror
+DEBUG = -fsanitize=address,undefined -g3
 
 # クリーンアップコマンド
 RM = rm -rf
@@ -42,10 +43,10 @@ NORM = norminette
 UTILS_DIR = 	utils/
 
 # 各ディレクトリ内のソースファイル
-UTILS_SRC = 	utils.c ft_uint_atoi.c ft_malloc.c
+UTILS_SRC = 	utils.c atoi.c ft_malloc.c
 
 # ソースファイル
-SRC_FILES = main.c validate_check.c
+SRC_FILES = main.c conditions.c philosophers.c initialize.c observers.c
 
 # ソースファイルをまとめる
 SRC_FILES += $(addprefix $(UTILS_DIR), $(UTILS_SRC))
@@ -69,6 +70,12 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 	@echo $(Y) "$(NAME) src files successfully compiled\n" $(X)
 	@echo $(B) "$(NAME) creating" $(X)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
+	@echo $(G) "!! $(NAME) created !!\n" $(X)
+
+debug: $(OBJ_DIR) $(OBJS)
+	@echo $(Y) "$(NAME) src files successfully compiled\n" $(X)
+	@echo $(B) "$(NAME) creating" $(X)
+	@$(CC) $(CFLAGS) $(DEBUG) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
 	@echo $(G) "!! $(NAME) created !!\n" $(X)
 
 # オブジェクトファイルのディレクトリを作成

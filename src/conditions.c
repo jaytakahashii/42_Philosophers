@@ -1,38 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_check.c                                   :+:      :+:    :+:   */
+/*   conditions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 17:00:36 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/08/24 17:14:57 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static bool	set_conditions(int ac, char **av, t_conditions *conditions)
+static bool	is_zero(uint64_t num)
 {
-	if (!unsigned_long_atoi(av[1], &conditions->num_of_philos))
+	if (num == 0)
+	{
+		error_message("Invalid argument", ": 0 is not allowed");
+		return (true);
+	}
+	return (false);
+}
+
+static bool	get_conditions(int ac, char **av, t_conditions *conditions)
+{
+	if (!is_uint_atoi(av[1], &conditions->num_of_philos)
+		|| is_zero(conditions->num_of_philos))
 		return (false);
-	if (!unsigned_long_atoi(av[2], &conditions->time_to_die))
+	if (!is_uint_atoi(av[2], &conditions->time_to_die)
+		|| is_zero(conditions->time_to_die))
 		return (false);
-	if (!unsigned_long_atoi(av[3], &conditions->time_to_eat))
+	if (!is_uint_atoi(av[3], &conditions->time_to_eat)
+		|| is_zero(conditions->time_to_eat))
 		return (false);
-	if (!unsigned_long_atoi(av[4], &conditions->time_to_sleep))
+	if (!is_uint_atoi(av[4], &conditions->time_to_sleep)
+		|| is_zero(conditions->time_to_sleep))
 		return (false);
 	if (ac == 6)
 	{
-		if (!unsigned_long_atoi(av[5], &conditions->num_of_times_to_eat))
+		if (!is_uint_atoi(av[5], &conditions->must_eat)
+			|| is_zero(conditions->must_eat))
 			return (false);
 	}
 	else
-		conditions->num_of_times_to_eat = 0;
+		conditions->must_eat = 0;
 	return (true);
 }
 
-bool	validate_check(int ac, char **av, t_conditions *conditions)
+bool	validate_and_get_conditions(int ac, char **av, t_conditions *conditions)
 {
 	if (ac != 5 && ac != 6)
 	{
@@ -40,7 +55,7 @@ bool	validate_check(int ac, char **av, t_conditions *conditions)
 			"\nArgs: Philo TimeToDie TimeToEat TimeToSleep [NumOfTimesToEat]");
 		return (false);
 	}
-	if (!set_conditions(ac, av, conditions))
+	if (!get_conditions(ac, av, conditions))
 		return (false);
 	return (true);
 }

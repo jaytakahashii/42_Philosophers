@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_uint_atoi.c                                     :+:      :+:    :+:   */
+/*   atoi.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:40:06 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/08/19 20:26:45 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // ULONG_MAX = 18446744073709551615
 
-bool	negative_check(char **str)
+static bool	negative_check(char **str)
 {
 	if (!str || !*str)
 	{
@@ -31,7 +31,7 @@ bool	negative_check(char **str)
 	return (true);
 }
 
-bool	is_ulong(unsigned long num, char str_i)
+static bool	is_ulong(uint64_t num, char str_i)
 {
 	if (num > LONG_MAX / 10 || (num == LONG_MAX / 10 && str_i >= '6'))
 	{
@@ -41,12 +41,16 @@ bool	is_ulong(unsigned long num, char str_i)
 	return (true);
 }
 
-bool	unsigned_long_atoi(char *str, unsigned long *num)
+bool	is_uint_atoi(char *str, uint64_t *num)
 {
+	if (!str || !*str || !num)
+	{
+		printf("bool_uint_atoi: false\n");
+		return (false);
+	}
 	pass_space(&str);
 	if (!negative_check(&str))
 		return (false);
-	*num = 0;
 	while (*str)
 	{
 		if (*str < '0' || '9' < *str)
@@ -56,9 +60,7 @@ bool	unsigned_long_atoi(char *str, unsigned long *num)
 		}
 		*num = *num * 10 + *str - '0';
 		if (!is_ulong(*num, *str))
-		{
 			return (false);
-		}
 		str++;
 	}
 	return (true);

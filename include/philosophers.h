@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 19:29:18 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:31:42 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ bool		init_philos(t_central *central, t_philos *philos,
 void		conditions_init(t_conditions *conditions);
 
 // observers.c
-void		*program_observer(void *arg);
+void		*philos_observer(void *arg);
 bool		dead_check(t_philos *philo);
 
 #endif

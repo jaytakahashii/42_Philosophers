@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 19:27:14 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:31:42 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ bool	check_death(t_philos *philos)
 	return (false);
 }
 
-void	*program_observer(void *arg)
+void	*philos_observer(void *arg)
 {
 	t_philos	*philos;
 

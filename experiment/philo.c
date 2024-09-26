@@ -70,7 +70,7 @@ void* lifecycle(void* arg) {
     return NULL;
 }
 
-void* program_observer(void* arg) {
+void* philos_observer(void* arg) {
     t_data *data = (t_data*)arg;
     while (!data->stop_simulation) {
         for (int i = 0; i < data->number_of_philosophers; i++) {
@@ -141,7 +141,7 @@ int main(int argc, char **argv) {
     }
 
     pthread_t monitor_thread;
-    pthread_create(&monitor_thread, NULL, program_observer, &data);
+    pthread_create(&monitor_thread, NULL, philos_observer, &data);
 
     for (int i = 0; i < data.number_of_philosophers; i++) {
         pthread_create(&data.philosophers[i].thread, NULL, lifecycle, &data.philosophers[i]);

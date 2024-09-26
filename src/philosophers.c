@@ -6,20 +6,48 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:45:30 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 19:06:11 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:43:19 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-// philosopher : eat -> sleep -> think -> eat -> sleep -> think -> ...
+static bool	dead_check(t_philos *philo)
+{
+	pthread_mutex_lock(philo->dead_lock);
+	if (*philo->dead)
+	{
+		pthread_mutex_unlock(philo->dead_lock);
+		return (true);
+	}
+	pthread_mutex_unlock(philo->dead_lock);
+	return (false);
+}
+
 void	philo_eat(t_philos *philo)
 {
 	pthread_mutex_lock(philo->r_fork);
+	if (dead_check(philo))
+	{
+		pthread_mutex_unlock(philo->r_fork);
+		return ;
+	}
 	log_event(philo->data, philo->id, "has taken a fork");
 	pthread_mutex_lock(philo->l_fork);
+	if (dead_check(philo))
+	{
+		pthread_mutex_unlock(philo->r_fork);
+		pthread_mutex_unlock(philo->l_fork);
+		return ;
+	}
 	log_event(philo->data, philo->id, "has taken a fork");
 	philo->is_eating = true;
+	if (dead_check(philo))
+	{
+		pthread_mutex_unlock(philo->r_fork);
+		pthread_mutex_unlock(philo->l_fork);
+		return ;
+	}
 	log_event(philo->data, philo->id, "is eating");
 	pthread_mutex_lock(&philo->data->eat_lock);
 	pthread_mutex_lock(&philo->data->time_lock);
@@ -37,32 +65,17 @@ void	philo_eat(t_philos *philo)
 
 void	philo_sleep(t_philos *philo)
 {
+	if (dead_check(philo))
+		return ;
 	log_event(philo->data, philo->id, "is sleeping");
 	ft_usleep(philo->conditions->time_to_sleep);
 }
 
 void	philo_think(t_philos *philo)
 {
+	if (dead_check(philo))
+		return ;
 	log_event(philo->data, philo->id, "is thinking");
-}
-
-static bool	dead_check(t_philos *philo)
-{
-	pthread_mutex_lock(philo->dead_lock);
-	if (*philo->dead)
-	{
-		pthread_mutex_unlock(philo->dead_lock);
-		return (true);
-	}
-	pthread_mutex_unlock(philo->dead_lock);
-	pthread_mutex_lock(philo->eat_lock);
-	if (*philo->finished)
-	{
-		pthread_mutex_unlock(philo->eat_lock);
-		return (true);
-	}
-	pthread_mutex_unlock(philo->eat_lock);
-	return (false);
 }
 
 void	*lifecycle(void *arg)

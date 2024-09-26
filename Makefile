@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/09/25 17:17:19 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/26 16:54:15 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ DEPS = $(MAKEFILE) $(HEADERS)
 
 # コンパイル設定
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror
-# DEBUG = -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
+DEBUG = -fsanitize=address -g
 
 # クリーンアップコマンド
 RM = rm -rf

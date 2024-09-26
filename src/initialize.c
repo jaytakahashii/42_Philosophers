@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 18:59:23 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:34:33 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ bool	init_philos(t_data *data, t_philos *philos, t_conditions *conditions, t_all
 		philos[i].conditions = conditions;
 		philos[i].start_time = get_time_in_ms();
 		philos[i].last_eat_time = get_time_in_ms();
-		philos[i].finished = &data->finished;
 		philos[i].dead = &data->dead_flag;
 		philos[i].data = data;
 		philos[i].print_lock = &data->print_lock;

@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/25 18:58:53 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:32:43 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_philos
 	t_conditions	*conditions;
 	__uint64_t		start_time;
 	__uint64_t		last_eat_time;
-	bool			*finished;
 	bool			*dead;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;

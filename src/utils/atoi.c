@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:40:06 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 17:09:06 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:02:36 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,6 @@ bool	is_uint_atoi(char *str, __uint64_t *num)
 	if (!str || !*str || !num)
 	{
 		printf("bool_uint_atoi: false\n");
-		return (false);
-	}
-	pass_space(&str);
-	if (!negative_check(&str))
-		return (false);
-	while (*str)
-	{
-		if (*str < '0' || '9' < *str)
-		{
-			error_message("Invalid argument", NULL);
-			return (false);
-		}
-		*num = *num * 10 + *str - '0';
-		if (!is_ulong(*num, *str))
-			return (false);
-		str++;
-	}
-	return (true);
-}
-
-bool	is_atoi(char *str, int *num)
-{
-	if (!str || !*str || !num)
-	{
-		printf("bool_atoi: false\n");
 		return (false);
 	}
 	pass_space(&str);

@@ -6,16 +6,28 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:32:27 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 17:05:02 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:02:07 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+bool	dead_check(t_philos *philo)
+{
+	pthread_mutex_lock(philo->dead_lock);
+	if (*philo->dead)
+	{
+		pthread_mutex_unlock(philo->dead_lock);
+		return (true);
+	}
+	pthread_mutex_unlock(philo->dead_lock);
+	return (false);
+}
+
 bool	check_finished(t_philos *philos)
 {
-	__uint64_t	i;
-	__uint64_t	finished;
+	__uint64_t		i;
+	__uint64_t		finished;
 	t_conditions	conditions;
 
 	i = 0;
@@ -44,7 +56,8 @@ bool	check_finished(t_philos *philos)
 bool	philosopher_dead(t_philos *philo, __uint64_t time_to_die)
 {
 	pthread_mutex_lock(philo->eat_lock);
-	if (get_time_in_ms() - philo->last_eat_time >= time_to_die && !philo->is_eating)
+	if (get_time_in_ms() - philo->last_eat_time >= time_to_die
+		&& !philo->is_eating)
 	{
 		pthread_mutex_unlock(philo->eat_lock);
 		return (true);
@@ -55,8 +68,8 @@ bool	philosopher_dead(t_philos *philo, __uint64_t time_to_die)
 
 bool	check_death(t_philos *philos)
 {
-	__uint64_t	i;
-	t_central	*data;
+	__uint64_t		i;
+	t_central		*data;
 	t_conditions	conditions;
 
 	i = 0;

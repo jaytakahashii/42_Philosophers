@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 16:55:50 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:02:59 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ int	ft_usleep(__uint64_t time)
 
 	start_time = get_time_in_ms();
 	while (get_time_in_ms() - start_time < time)
-	{
-		// printf("usleep\n");
 		usleep(100);
-	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 17:00:26 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:04:36 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ typedef struct s_philos
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*print_lock;
 	pthread_mutex_t	*eat_lock;
-	pthread_mutex_t *dead_lock;
+	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*time_lock;
-	t_central			*central;
+	t_central		*central;
 }	t_philos;
 
 /* defining the structure for the allocations */
@@ -91,8 +91,7 @@ __uint64_t	get_time_in_ms(void);
 int			ft_usleep(__uint64_t time);
 
 // uint64_atoi.c
-bool	is_uint_atoi(char *str, __uint64_t *num);
-bool	is_atoi(char *str, int *num);
+bool		is_uint_atoi(char *str, __uint64_t *num);
 
 // ft_malloc.c
 bool		add_allocations(void *ptr, t_allocations **allocations);
@@ -100,16 +99,20 @@ void		free_allocations(t_allocations **allocations);
 void		*ft_malloc(size_t size, t_allocations **allocations);
 
 // validate_check.c
-bool		validate_and_get_conditions(int ac, char **av, t_conditions *conditions);
+bool		validate_and_get_conditions(int ac, char **av,
+				t_conditions *conditions);
 
 void		*lifecycle(void *arg);
 
 // initialize.c
-bool		init_data(t_central *central, t_philos *philos, t_conditions conditions);
-bool		init_philos(t_central *central, t_philos *philos, t_conditions *conditions);
+bool		init_data(t_central *central, t_philos *philos,
+				t_conditions conditions);
+bool		init_philos(t_central *central, t_philos *philos,
+				t_conditions *conditions);
+void		conditions_init(t_conditions *conditions);
 
 // observers.c
-void	*program_observer(void *arg);
-
+void		*program_observer(void *arg);
+bool		dead_check(t_philos *philo);
 
 #endif

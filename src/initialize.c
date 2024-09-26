@@ -6,24 +6,32 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 17:04:03 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:53:23 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-bool	init_philos(t_central *central, t_philos *philos, t_conditions *conditions)
+void	conditions_init(t_conditions *conditions)
 {
-	__uint64_t i = 0;
+	conditions->num_of_philos = 0;
+	conditions->time_to_die = 0;
+	conditions->time_to_eat = 0;
+	conditions->time_to_sleep = 0;
+	conditions->must_eat = 0;
+}
 
+bool	init_philos(t_central *central, t_philos *philos, t_conditions *cond)
+{
+	__uint64_t (i) = 0;
 	if (!philos)
 		return (false);
-	while (i < conditions->num_of_philos)
+	while (i < cond->num_of_philos)
 	{
 		philos[i].id = i + 1;
 		philos[i].is_eating = false;
 		philos[i].eat_count = 0;
-		philos[i].conditions = conditions;
+		philos[i].conditions = cond;
 		philos[i].start_time = get_time_in_ms();
 		philos[i].last_eat_time = get_time_in_ms();
 		philos[i].dead = &central->dead_flag;
@@ -34,7 +42,7 @@ bool	init_philos(t_central *central, t_philos *philos, t_conditions *conditions)
 		philos[i].time_lock = &central->time_lock;
 		philos[i].l_fork = &central->forks[i];
 		if (i == 0)
-			philos[i].r_fork = &central->forks[conditions->num_of_philos - 1];
+			philos[i].r_fork = &central->forks[cond->num_of_philos - 1];
 		else
 			philos[i].r_fork = &central->forks[i - 1];
 		i++;

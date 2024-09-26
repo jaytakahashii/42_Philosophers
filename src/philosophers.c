@@ -6,31 +6,19 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:45:30 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 17:39:37 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:02:24 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static bool	dead_check(t_philos *philo)
-{
-	pthread_mutex_lock(philo->dead_lock);
-	if (*philo->dead)
-	{
-		pthread_mutex_unlock(philo->dead_lock);
-		return (true);
-	}
-	pthread_mutex_unlock(philo->dead_lock);
-	return (false);
-}
-
-void	philo_eat(t_philos *philo)
+bool	get_fork(t_philos *philo)
 {
 	pthread_mutex_lock(philo->r_fork);
 	if (dead_check(philo))
 	{
 		pthread_mutex_unlock(philo->r_fork);
-		return ;
+		return (false);
 	}
 	log_event(philo->central, philo->id, "has taken a fork");
 	pthread_mutex_lock(philo->l_fork);
@@ -38,9 +26,16 @@ void	philo_eat(t_philos *philo)
 	{
 		pthread_mutex_unlock(philo->r_fork);
 		pthread_mutex_unlock(philo->l_fork);
-		return ;
+		return (false);
 	}
 	log_event(philo->central, philo->id, "has taken a fork");
+	return (true);
+}
+
+void	philo_eat(t_philos *philo)
+{
+	if (!get_fork(philo))
+		return ;
 	philo->is_eating = true;
 	if (dead_check(philo))
 	{
@@ -86,7 +81,6 @@ void	*lifecycle(void *arg)
 		philo_eat(philos);
 		philo_sleep(philos);
 		philo_think(philos);
-
 	}
 	return (arg);
 }

@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 17:00:36 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 17:08:40 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:11:10 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,21 @@ static bool	get_conditions(int ac, char **av, t_conditions *conditions)
 	conditions->time_to_eat = 0;
 	conditions->time_to_sleep = 0;
 	conditions->must_eat = 0;
-	if (!is_uint_atoi(av[1], &conditions->num_of_philos) && is_zero(conditions->num_of_philos))
+	if (!is_uint_atoi(av[1], &conditions->num_of_philos) || is_zero(conditions->num_of_philos))
 		return (false);
-	if (!is_uint_atoi(av[2], &conditions->time_to_die) && is_zero(conditions->time_to_die))
+	if (!is_uint_atoi(av[2], &conditions->time_to_die) || is_zero(conditions->time_to_die))
 		return (false);
-	if (!is_uint_atoi(av[3], &conditions->time_to_eat) && is_zero(conditions->time_to_eat))
+	if (!is_uint_atoi(av[3], &conditions->time_to_eat) || is_zero(conditions->time_to_eat))
 		return (false);
-	if (!is_uint_atoi(av[4], &conditions->time_to_sleep) && is_zero(conditions->time_to_sleep))
+	if (!is_uint_atoi(av[4], &conditions->time_to_sleep) || is_zero(conditions->time_to_sleep))
 		return (false);
 	if (ac == 6)
 	{
-		if (!is_uint_atoi(av[5], &conditions->must_eat) && is_zero(conditions->must_eat))
+		if (!is_uint_atoi(av[5], &conditions->must_eat) || is_zero(conditions->must_eat))
 			return (false);
 	}
 	else
-		conditions->must_eat = -1;
+		conditions->must_eat = 0;
 	return (true);
 }
 

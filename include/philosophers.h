@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 18:18:52 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:08:27 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ typedef struct timeval	t_timeval;
 /* defining the structure for the philosophers */
 typedef struct s_central
 {
-	bool			dead_flag;
-	bool			finished;
+	bool			finish;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	time_lock;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	eat_lock;
 	pthread_mutex_t	dead_lock;
@@ -66,54 +64,42 @@ typedef struct s_philos
 	t_conditions	*conditions;
 	uint64_t		start_time;
 	uint64_t		last_eat_time;
-	bool			*dead;
+	bool			*finish;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*print_lock;
 	pthread_mutex_t	*eat_lock;
 	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*time_lock;
 	t_central		*central;
 }	t_philos;
-
-/* defining the structure for the allocations */
-typedef struct s_allocations
-{
-	void					*ptr;
-	struct s_allocations	*next;
-}	t_allocations;
 
 /* function prototypes */
 // utils/
 void		error_message(char *main_msg, char *sub_msg);
 void		pass_space(char **str);
-void		log_event(t_central *central, int id, const char *event);
+void		log_event(t_central *cent, int id, const char *event);
 uint64_t	get_time_in_ms(void);
-int			ft_usleep(uint64_t time);
+void		ft_usleep(uint64_t time);
 
 // uint64_atoi.c
 bool		is_uint_atoi(char *str, uint64_t *num);
 
-// ft_malloc.c
-bool		add_allocations(void *ptr, t_allocations **allocations);
-void		free_allocations(t_allocations **allocations);
-void		*ft_malloc(size_t size, t_allocations **allocations);
-
 // validate_check.c
 bool		validate_and_get_conditions(int ac, char **av,
-				t_conditions *conditions);
+				t_conditions *cond);
 
+// philosophers.c
 void		*lifecycle(void *arg);
 
 // initialize.c
-bool		init_data(t_central *central, t_philos *philos,
-				t_conditions conditions);
-bool		init_philos(t_central *central, t_philos *philos,
-				t_conditions *conditions);
-void		conditions_init(t_conditions *conditions);
+bool		init_central(t_central *cent, t_philos *philo,
+				t_conditions cond);
+bool		init_philos(t_central *cent, t_philos *philo,
+				t_conditions *cond);
+void		init_conditions(t_conditions *cond);
 
 // observers.c
-void		*program_observer(void *arg);
-bool		dead_check(t_philos *philo);
+void		*philos_observer(void *arg);
+bool		finish_check(t_philos *philo);
 
 #endif

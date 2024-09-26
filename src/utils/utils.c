@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:59:48 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:21:33 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:51:53 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,31 @@ void	pass_space(char **str)
 		(*str)++;
 }
 
-int	ft_usleep(uint64_t time)
+void	ft_usleep(uint64_t time)
 {
 	uint64_t	start_time;
 
 	start_time = get_time_in_ms();
 	while (get_time_in_ms() - start_time < time)
 		usleep(100);
-	return (0);
 }
 
 uint64_t	get_time_in_ms(void)
 {
 	t_timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		error_message("gettimeofday() failed", NULL);
+	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void	log_event(t_central *data, int id, const char *event)
+void	log_event(t_central *cent, int id, const char *event)
 {
 	uint64_t	timestamp;
 
-	pthread_mutex_lock(&data->time_lock);
-	timestamp = get_time_in_ms() - data->philos[0].start_time;
-	pthread_mutex_unlock(&data->time_lock);
-	pthread_mutex_lock(&data->print_lock);
+	pthread_mutex_lock(&cent->eat_lock);
+	timestamp = get_time_in_ms() - cent->philos[0].start_time;
+	pthread_mutex_unlock(&cent->eat_lock);
+	pthread_mutex_lock(&cent->print_lock);
 	printf("%" PRIu64 " %d %s\n", timestamp, id, event);
-	pthread_mutex_unlock(&data->print_lock);
+	pthread_mutex_unlock(&cent->print_lock);
 }

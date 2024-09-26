@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 17:16:28 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/25 16:10:18 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:01:01 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	free_allocations(t_allocations **allocations)
 {
 	t_allocations	*tmp;
 
+	if (!allocations || !*allocations)
+		return ;
 	while (*allocations)
 	{
 		tmp = *allocations;
@@ -42,9 +44,7 @@ void	*ft_malloc(size_t size, t_allocations **allocations)
 {
 	void	*ptr;
 
-	printf("ft_malloc: %zu\n", size);
 	ptr = malloc(size);
-	printf("ft_malloc: %p\n", ptr);
 	if (ptr == NULL)
 	{
 		free_allocations(allocations);
@@ -54,6 +54,7 @@ void	*ft_malloc(size_t size, t_allocations **allocations)
 	if (!add_allocations(ptr, allocations))
 	{
 		free(ptr);
+		free_allocations(allocations);
 		return (NULL);
 	}
 	return (ptr);

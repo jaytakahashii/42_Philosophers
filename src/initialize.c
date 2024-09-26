@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:07:20 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 20:08:42 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:18:52 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ bool	init_philos(t_central *cent, t_philos *philo, t_conditions *cond)
 	while (i < cond->num_of_philos)
 	{
 		philo[i].id = i + 1;
-		philo[i].is_eating = false;
 		philo[i].eat_count = 0;
 		philo[i].conditions = cond;
 		philo[i].start_time = get_time_in_ms();

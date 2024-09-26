@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 01:45:43 by jay               #+#    #+#             */
-/*   Updated: 2024/09/26 20:08:27 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/26 20:18:55 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct s_philos
 {
 	pthread_t		thread;
 	int				id;
-	bool			is_eating;
 	uint64_t		eat_count;
 	t_conditions	*conditions;
 	uint64_t		start_time;

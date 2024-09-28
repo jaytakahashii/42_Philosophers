@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:45:30 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 20:18:48 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:08:26 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ static void	philo_eat(t_philos *philo)
 	log_event(philo->central, philo->id, "is eating");
 	pthread_mutex_lock(&philo->central->eat_lock);
 	philo->last_eat_time = get_time_in_ms();
-	philo->eat_count++;
 	pthread_mutex_unlock(&philo->central->eat_lock);
 	ft_usleep(philo->conditions->time_to_eat);
+	pthread_mutex_lock(&philo->central->eat_lock);
+	philo->eat_count++;
+	pthread_mutex_unlock(&philo->central->eat_lock);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
 }

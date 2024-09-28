@@ -6,7 +6,7 @@
 #    By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/18 12:15:22 by jtakahas          #+#    #+#              #
-#    Updated: 2024/09/26 19:48:46 by jtakahas         ###   ########.fr        #
+#    Updated: 2024/09/28 13:51:30 by jtakahas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,7 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME)
 	@echo $(G) "!! $(NAME) created !!\n" $(X)
 
+debug: CC = clang
 debug: $(OBJ_DIR) $(OBJS)
 	@echo $(Y) "$(NAME) src files successfully compiled\n" $(X)
 	@echo $(B) "$(NAME) creating" $(X)

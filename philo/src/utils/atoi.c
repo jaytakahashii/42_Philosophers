@@ -6,7 +6,7 @@
 /*   By: jtakahas <jtakahas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:40:06 by jtakahas          #+#    #+#             */
-/*   Updated: 2024/09/26 18:12:10 by jtakahas         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:17:40 by jtakahas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static bool	negative_check(char **str)
 {
 	if (!str || !*str)
 	{
-		printf("negative_check: false\n");
+		error_message("Invalid argument", NULL);
 		return (false);
 	}
 	if (**str == '-')
@@ -45,7 +45,7 @@ bool	is_uint_atoi(char *str, uint64_t *num)
 {
 	if (!str || !*str || !num)
 	{
-		printf("bool_uint_atoi: false\n");
+		error_message("Invalid argument", NULL);
 		return (false);
 	}
 	pass_space(&str);

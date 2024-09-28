@@ -29,5 +29,6 @@ jobs:
 
     - name: Build and Test
       run: |
+        cd philo
         make debug
         ./philo 5 800 200 200 3

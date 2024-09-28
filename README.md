@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-	<b><i>Final Score: ??/100 (work in progress)</i></b><br>
+	<b><i>Final Score: 100/100 (work in progress)</i></b><br>
 </p>
 
 # 💡 About the project

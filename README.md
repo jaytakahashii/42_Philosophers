@@ -52,7 +52,7 @@ $ make
 **2, Run**
 after creating the executable file philosophers, you can run it with the following command:
 ```shell
-$ ./philosophers
+$ ./philosophers number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 ```
 
 **+α. Cleaning all binary and executable files**

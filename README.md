@@ -49,14 +49,19 @@ To compile the project code, go to its path and run:
 $ make
 ```
 
-**2, Run**
-after creating the executable file philosophers, you can run it with the following command:
+**2. Run**
+After building the philosophers executable, run it with:
+
 ```shell
 $ ./philosophers number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
+
+# Example:
+$ ./philosophers 5 800 200 200 (5)
 ```
 
 **+α. Cleaning all binary and executable files**
-To clean all files generated while doing a make, go to the path and run:
+To clean all files generated during compilation:
+
 ```shell
 $ make fclean
 ```
